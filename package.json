@@ -11,7 +11,8 @@
     "test_demo_chromium_hl": "cross-env TEST_ENV=demo npx playwright test --project=chromium",
     "test_demo_firefox_hl": "cross-env TEST_ENV=demo npx playwright test --project=firefox",
     "test_demo_cr_ui": "cross-env TEST_ENV=demo npx playwright test --project=chromium --ui",
-    "test_demo_chromium_hd_smoke": "cross-env TEST_ENV=demo npx playwright test --project=chromium --grep=@smoke"
+    "test_demo_chromium_hd_smoke": "cross-env TEST_ENV=demo npx playwright test --project=chromium --grep=@smoke",
+    "test_demo_chromium_hd_lf": "cross-env TEST_ENV=demo npx playwright test --project=chromium --last-failed"
   },
   "keywords": [],
   "author": "",
