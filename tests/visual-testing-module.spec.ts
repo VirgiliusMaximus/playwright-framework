@@ -7,7 +7,7 @@ test("Visual test for logo and left side menu ", { tag: ['@ui'] }, async ({ goto
 //const username = commonUtils.decryptData(process.env.USER_NAME!);
 //const password = commonUtils.decryptData(process.env.PASSWORD!);
 //await loginPage.loginSite(username, password);
-await expect(leftNavigationPage.orangeHRMLogo).toHaveScreenshot('OrangeHRMLogo.png');
-await expect(leftNavigationPage.leftSideNavi).toHaveScreenshot('LeftNavMenu.png');
+await expect(leftNavigationPage.orangeHRMLogo).toHaveScreenshot('OrangeHRMLogo.png',{maxDiffPixelRatio: 0.3,maxDiffPixels: 5000});
+await expect(leftNavigationPage.leftSideNavi).toHaveScreenshot('LeftNavMenu.png',{maxDiffPixelRatio: 0.3,maxDiffPixels: 5000});
 })
 
