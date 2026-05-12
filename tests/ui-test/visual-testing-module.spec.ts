@@ -1,5 +1,5 @@
 import { test, expect } from "../../fixtures/hooks-fixture";
-import loginData from "../../data/login-module-data.json"; //import name can be any name location matters
+import loginData from "../../data/ui-data/login-module-data.json"; //import name can be any name location matters
 
 
 test("Visual test for logo and left side menu ", { tag: ['@ui'] }, async ({ gotoUrl, loginPage, commonUtils,leftNavigationPage }) => {

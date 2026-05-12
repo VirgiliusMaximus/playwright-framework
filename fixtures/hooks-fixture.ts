@@ -23,4 +23,4 @@ export const test = baseTest.extend<HooksFixtureType>({
 
 })
 
-export { expect } from "@playwright/test"
+export { expect } from "@playwright/test";

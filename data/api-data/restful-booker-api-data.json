@@ -1,0 +1,4 @@
+{
+    "apiBaseUrl": "https://restful-booker.herokuapp.com",
+    "contentType": "application/json; charset=utf-8"
+}
