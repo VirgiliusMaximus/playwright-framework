@@ -32,6 +32,11 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
+    baseURL: process.env.API_BASE_URL,
+    extraHTTPHeaders: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     screenshot: 'only-on-failure',
@@ -74,6 +79,11 @@ export default defineConfig({
         ...devices['Desktop Safari'],
         storageState: './authentication/.auth/auth.json'
       },
+
+    },
+        {
+      name: 'api-tests',
+      testDir: './tests/api-test',
 
     },
 

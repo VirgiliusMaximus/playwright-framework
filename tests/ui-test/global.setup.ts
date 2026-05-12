@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
-import { test } from "../fixtures/common-fixture";
+import { test } from "../../fixtures/common-fixture";
+import dotenv from "dotenv";
 
 test("Global setup for auto login",{ tag:['@ui']}, async ({ page, loginPage, commonUtils, dashboardPage }) => {
     test.setTimeout(90000);
