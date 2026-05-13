@@ -15,11 +15,11 @@ import restfulBookerApiData from '../../data/api-data/restful-booker-api-data.js
 //      console.log(await booking1.json());
 // });
 
-test('Retful Booker API Module - verify if user is able to fetch booking IDs', { 
+test('Retful Booker API Module 1 - verify if user is able to fetch booking IDs', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
-            type: 'Test Case link',
+            type: 'Test Case link 1',
             description: 'http://qmetry.com/testrail/link-to-test-case/1'
         }
     ] 
@@ -34,4 +34,102 @@ test('Retful Booker API Module - verify if user is able to fetch booking IDs', {
         expect(responseIds.headers()).toHaveProperty('content-type');
         expect(responseIds.headers()['content-type']).toBe(restfulBookerApiData.contentType);
 
+});
+
+test('Retful Booker API Module 2- verify if user is able to fetch booking IDs 2', { 
+    tag: ['@API','@UAT'],
+    annotation: [
+        {
+            type: 'Test Case link 2',
+            description: 'http://qmetry.com/testrail/link-to-test-case/2'
+        }
+    ] 
+
+}, async ({request}) => {
+    const bookingID = await request.get(`${apiPathData.booking_path}/2`);
+    const jsonBookingRsp: any = await bookingID.json();
+        console.log(jsonBookingRsp);
+        expect(bookingID.status()).toBe(200);
+        expect(bookingID.statusText()).toBe('OK');
+        expect(bookingID).toBeTruthy();
+        expect(bookingID.headers()).toHaveProperty('content-type');
+        expect(bookingID.headers()['content-type']).toBe(restfulBookerApiData.contentType);
+        expect(jsonBookingRsp).toHaveProperty('firstname');
+        expect(jsonBookingRsp.firstname).toBe(restfulBookerApiData.firstName); //intentional fail for firstName from data
+
+});
+
+test('Retful Booker API Module 3- verify if user is able to POST(create)', { 
+    tag: ['@API','@UAT'],
+    annotation: [
+        {
+            type: 'Test Case link 3',
+            description: 'http://qmetry.com/testrail/link-to-test-case/3'
+        }
+    ] 
+
+}, async ({request}) => {
+   const creteBookingReq= await request.post(apiPathData.booking_path,{
+        data: restfulBookerApiData.createBookingPayLoad
+    });
+    const jsonCreateBookingRsp: any = await creteBookingReq.json();
+    expect(creteBookingReq.status()).toBe(200);
+    expect(creteBookingReq.statusText()).toBe('OK');
+    expect(creteBookingReq).toBeTruthy();
+    expect(creteBookingReq.headers()).toHaveProperty('content-type');
+    expect(creteBookingReq.headers()['content-type']).toBe(restfulBookerApiData.contentType);
+    expect(jsonCreateBookingRsp).toHaveProperty('bookingid');
+    expect(jsonCreateBookingRsp.bookingid).toBeTruthy();
+    expect(jsonCreateBookingRsp).toHaveProperty('booking');
+    expect(jsonCreateBookingRsp.booking).toMatchObject(restfulBookerApiData.createBookingPayLoad);
+    console.log(jsonCreateBookingRsp);
+});
+
+test('Retful Booker API Module 4- verify if user is able to PUT(update)', { 
+    tag: ['@API','@UAT'],
+    annotation: [
+        {
+            type: 'Test Case link 4',
+            description: 'http://qmetry.com/testrail/link-to-test-case/4'
+        }
+    ] 
+
+}, async ({request}) => {
+   const updateBookingReq = await request.put(`${apiPathData.booking_path}/77`,{
+        data: restfulBookerApiData.updateBookingPayLoad,
+        // headers: {
+        //    Authorization : "Basic YWRtaW46cGFzc3dvcmQxMjM=" Can be putet here or in playwright.config.ts file as global header
+        // }
+    });
+    const jsonUpdateBookingRsp: any = await updateBookingReq.json();
+    expect(updateBookingReq.status()).toBe(200);
+    expect(updateBookingReq.statusText()).toBe('OK');
+    expect(updateBookingReq).toBeTruthy();
+    expect(updateBookingReq.headers()).toHaveProperty('content-type');
+    expect(updateBookingReq.headers()['content-type']).toBe(restfulBookerApiData.contentType);
+    expect(jsonUpdateBookingRsp).toMatchObject(restfulBookerApiData.updateBookingPayLoad);
+    console.log(jsonUpdateBookingRsp);
+});
+
+test('Retful Booker API Module 4-1- verify if user is able to PUT(update) with token', { 
+    tag: ['@API','@UAT'],
+    annotation: [
+        {
+            type: 'Test Case link 4-1',
+            description: 'http://qmetry.com/testrail/link-to-test-case/4-1'
+        }
+    ] 
+
+}, async ({request, commonApiUtils}) => {
+   const updateBookingReq = await request.put(`${apiPathData.booking_path}/82`,{
+        data: restfulBookerApiData.updateBookingPayLoad,
+        headers: {
+            Cookie : `token=${await commonApiUtils.createToken()}`
+         }
+    });
+    const jsonUpdateBookingRsp = await updateBookingReq.json();
+    console.log(jsonUpdateBookingRsp);
+    expect(updateBookingReq.status()).toBe(200);
+    expect(jsonUpdateBookingRsp).toMatchObject(restfulBookerApiData.updateBookingPayLoad);
+   
 });

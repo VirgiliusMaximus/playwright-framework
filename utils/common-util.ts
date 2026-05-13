@@ -1,4 +1,5 @@
 import cryptoJS from "crypto-js"; //import name can be any name location matters, or package in this case
+import dotenv from "dotenv";
 
 export default class CommonUtils {
 

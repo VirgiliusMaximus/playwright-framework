@@ -1,4 +1,28 @@
 {
     "apiBaseUrl": "https://restful-booker.herokuapp.com",
-    "contentType": "application/json; charset=utf-8"
+    "contentType": "application/json; charset=utf-8",
+    "bookingEndpoint": "/booking/2",
+    "firstName": "John",
+    "createBookingPayLoad": {
+        "firstname": "Fane",
+        "lastname": "Gatu",
+        "totalprice": 150,
+        "depositpaid": true,
+        "bookingdates": {
+            "checkin": "2026-01-01",
+            "checkout": "2026-01-10"
+        },
+        "additionalneeds": "Breakfast"
+    },
+    "updateBookingPayLoad": {
+        "firstname": "Fane2",
+        "lastname": "Gatu2",
+        "totalprice": 150,
+        "depositpaid": true,
+        "bookingdates": {
+            "checkin": "2026-01-01",
+            "checkout": "2026-01-10"
+        },
+        "additionalneeds": "Breakfast"
+    }
 }
