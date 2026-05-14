@@ -46,7 +46,7 @@ test('Retful Booker API Module 2- verify if user is able to fetch booking IDs 2'
     ] 
 
 }, async ({request}) => {
-    const bookingID = await request.get(`${apiPathData.booking_path}/2`);
+    const bookingID = await request.get(`${apiPathData.booking_path}/22`);
     const jsonBookingRsp: any = await bookingID.json();
         console.log(jsonBookingRsp);
         expect(bookingID.status()).toBe(200);
@@ -64,7 +64,7 @@ test('Retful Booker API Module 3- verify if user is able to POST(create)', {
     annotation: [
         {
             type: 'Test Case link 3',
-            description: 'http://qmetry.com/testrail/link-to-test-case/3'
+            description: 'http://qmetry.com/testrail/link-to-test-case/22'
         }
     ] 
 
@@ -95,7 +95,7 @@ test('Retful Booker API Module 4- verify if user is able to PUT(update)', {
     ] 
 
 }, async ({request}) => {
-   const updateBookingReq = await request.put(`${apiPathData.booking_path}/77`,{
+   const updateBookingReq = await request.put(`${apiPathData.booking_path}/29`,{
         data: restfulBookerApiData.updateBookingPayLoad,
         // headers: {
         //    Authorization : "Basic YWRtaW46cGFzc3dvcmQxMjM=" Can be putet here or in playwright.config.ts file as global header
@@ -121,7 +121,7 @@ test('Retful Booker API Module 4-1- verify if user is able to PUT(update) with t
     ] 
 
 }, async ({request, commonApiUtils}) => {
-   const updateBookingReq = await request.put(`${apiPathData.booking_path}/82`,{
+   const updateBookingReq = await request.put(`${apiPathData.booking_path}/29`,{
         data: restfulBookerApiData.updateBookingPayLoad,
         headers: {
             Cookie : `token=${await commonApiUtils.createToken()}`
@@ -132,4 +132,51 @@ test('Retful Booker API Module 4-1- verify if user is able to PUT(update) with t
     expect(updateBookingReq.status()).toBe(200);
     expect(jsonUpdateBookingRsp).toMatchObject(restfulBookerApiData.updateBookingPayLoad);
    
+});
+
+test('Retful Booker API Module 5- verify if user is able to PATCH(update) with token', { 
+    tag: ['@API','@UAT'],
+    annotation: [
+        {
+            type: 'Test Case link 5',
+            description: 'http://qmetry.com/testrail/link-to-test-case/5'
+        }
+    ] 
+
+}, async ({request, commonApiUtils}) => {
+   const patchBookingReq = await request.patch(`${apiPathData.booking_path}/22`,{
+        data: restfulBookerApiData.patchBookingPayLoad,
+        headers: {
+            Cookie : `token=${await commonApiUtils.createToken()}`
+         }
+    });
+    const jsonPatchBookingRsp = await patchBookingReq.json();
+    console.log(jsonPatchBookingRsp);
+    expect(patchBookingReq.status()).toBe(200);
+    expect(jsonPatchBookingRsp).toMatchObject(restfulBookerApiData.patchBookingPayLoad);
+   
+});
+
+test('Retful Booker API Module 6- verify if user is able to DELETE with token', { 
+    tag: ['@API','@UAT'],
+    annotation: [
+        {
+            type: 'Test Case link 6',
+            description: 'http://qmetry.com/testrail/link-to-test-case/6'
+        }
+    ] 
+
+}, async ({request, commonApiUtils}) => {
+   const deleteBookingReq = await request.delete(`${apiPathData.booking_path}/22`, {
+        headers: {
+            Cookie: `token=${await commonApiUtils.createToken()}`
+        }
+    });
+    expect(deleteBookingReq.status()).toBe(201);
+    expect(deleteBookingReq.statusText()).toBe('Created');
+    expect(deleteBookingReq).toBeTruthy();
+    expect(deleteBookingReq.headers()).toHaveProperty('content-type');
+    const getBookingReq = await request.get(`${apiPathData.booking_path}/22`);
+    expect(getBookingReq.status()).toBe(404);
+    expect(getBookingReq.statusText()).toBe('Not Found');
 });

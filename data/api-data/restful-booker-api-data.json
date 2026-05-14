@@ -24,5 +24,9 @@
             "checkout": "2026-01-10"
         },
         "additionalneeds": "Breakfast"
+    },
+       "patchBookingPayLoad": {
+        "firstname": "Fane3",
+        "lastname": "Gatu3"
     }
 }
