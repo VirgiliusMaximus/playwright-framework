@@ -80,7 +80,7 @@ POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name
 	kubectl cp /home/corneliusmaximus/POC-Jenkins-Kubernetes/ default/$POD:/var/www/html/
 	kubectl exec -it $POD -- chmod -R 777 /var/www/html/POC-Jenkins-Kubernetes/
         else
-        echo -e "${Green}Files already there${NC}"
+        echo -e "${Green}Files already there.${NC}"
         fi
 
 
@@ -99,7 +99,7 @@ kubectl exec -it $POD3 -- ls /var/www/html/POC-Jenkins-Kubernetes/test-results/ 
         if [[ $? != "0" ]]; then
         echo -e "${BBlue}Waiting for results...${NC}"	
         else
-        kubectl cp default/$POD3:/var/www/html/POC-Jenkins-Kubernetes/test-results/test-results.xml ./home/corneliusmaximus/POC-Jenkins-Kubernetes/test-results/test-results.xml"
+        kubectl cp default/$POD3:/var/www/html/POC-Jenkins-Kubernetes/test-results/test-results.xml ./home/corneliusmaximus/POC-Jenkins-Kubernetes/test-results/test-results.xml
         echo -e "${Green}Files copied${NC}"
         break
         fi
