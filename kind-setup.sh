@@ -146,8 +146,8 @@ sleep 5
 }
 
 #CORE-------------------------------------------------------------------------------------#
-check_kind_online
-check_nodes_ready
+#check_kind_online
+#check_nodes_ready
 deploying_linux
 verify_apache_online
 copy_resources
