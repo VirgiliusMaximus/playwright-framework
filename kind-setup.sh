@@ -69,16 +69,33 @@ for ((i=1;i<5000;i++)) do
 done
 }
 
+#Check node/npm version-------------------------#
+function verify_node_npm() { 
+POD4=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
+for ((i=1;i<5000;i++)) do
+	kubectl exec -it $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
+        if [[ $? != "0" ]]; then
+        echo -e "${BBlue}Waiting for npm installation${NC}"
+        else
+        echo -e "${Green}Installation done.${NC}"
+        kubectl exec -it $POD4 -- /bin/bash -c "npm -v"
+        kubectl exec -it $POD4 -- /bin/bash -c "node -v"
+        kubectl exec -it $POD4 -- ls /var/POC-Jenkins-Kubernetes/
+        break
+        fi
+done
 
+}
 
 #Copy site resources into the container-------------------------#
 function copy_resources() { 
 POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-	kubectl exec -it $POD -- ls /var/www/html/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
+	kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${BBlue}Copying files into the container${NC}"
-	kubectl cp /home/corneliusmaximus/POC-Jenkins-Kubernetes/ default/$POD:/var/www/html/
-	kubectl exec -it $POD -- chmod -R 777 /var/www/html/POC-Jenkins-Kubernetes/
+	kubectl cp /home/corneliusmaximus/POC-Jenkins-Kubernetes/ default/$POD:/var/
+	kubectl exec -it $POD -- chmod -R 777 /var/POC-Jenkins-Kubernetes/
+        kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/
         else
         echo -e "${Green}Files already there.${NC}"
         fi
@@ -88,18 +105,20 @@ POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name
 #Copy site resources into the container-------------------------#
 function execute_playwright_tests() { 
 POD2=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-	kubectl exec -it $POD2 -- /bin/bash -c "cd /var/www/html/POC-Jenkins-Kubernetes/; npx playwright test"
+	kubectl exec -it $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/; npx playwright test"
 }
 
 #Copy playwright results locally-------------------------#
 function copy_playwright_results() { 
 POD3=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
 for ((i=1;i<5000;i++)) do
-kubectl exec -it $POD3 -- ls /var/www/html/POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
+kubectl exec -it $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
+        sleep 20
         echo -e "${BBlue}Waiting for results...${NC}"	
         else
-        kubectl cp default/$POD3:/var/www/html/POC-Jenkins-Kubernetes/test-results/test-results.xml ./home/corneliusmaximus/POC-Jenkins-Kubernetes/test-results/test-results.xml
+        sleep 5
+        kubectl cp default/$POD3:/var/POC-Jenkins-Kubernetes/test-results/test-results.xml ./home/corneliusmaximus/POC-Jenkins-Kubernetes/test-results/test-results.xml
         echo -e "${Green}Files copied${NC}"
         break
         fi
@@ -146,10 +165,11 @@ sleep 5
 }
 
 #CORE-------------------------------------------------------------------------------------#
-#check_kind_online
-#check_nodes_ready
+check_kind_online
+check_nodes_ready
 deploying_linux
-verify_apache_online
+verify_node_npm
+#verify_apache_online
 copy_resources
 execute_playwright_tests
 copy_playwright_results
