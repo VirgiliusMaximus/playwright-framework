@@ -74,7 +74,7 @@ function copy_resources() {
 POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
 	kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
-        echo -e "${BBlue}Copying files into the container${NC}"
+        echo -e "${PURPLE}Copying files into the container...${NC}"
 	kubectl cp /home/corneliusmaximus/POC-Jenkins-Kubernetes/ default/$POD:/var/
 	kubectl exec -it $POD -- chmod -R 777 /var/POC-Jenkins-Kubernetes/
         kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/
@@ -91,10 +91,10 @@ POD4=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.nam
 for ((i=1;i<5000;i++)) do
 	kubectl exec -it $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
-        echo -e "${BBlue}Waiting for npm installation${NC}"
+        echo -e "${PURPLE}Waiting for npm installation${NC}"
         sleep 30
         else
-        echo -e "${Green}Installation done.${NC}"
+        echo -e "${Green}Actual node and npm versions:${NC}"
         kubectl exec -it $POD4 -- /bin/bash -c "npm -v"
         kubectl exec -it $POD4 -- /bin/bash -c "node -v"
         break
@@ -104,10 +104,14 @@ done
 }
 
 
-#Copy site resources into the container-------------------------#
-function execute_playwright_tests() { 
+
+#Install and execute Playwright tests-------------------------#
+function install_execute_playwright_tests() { 
 POD2=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-	kubectl exec -it $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps && npx playwright test"
+        echo -e "${PURPLE}Waiting for npm and playwright installation...${NC}"
+	kubectl exec -it $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
+        echo -e "${PURPLE}Executing Playwright tests...${NC}"
+        kubectl exec -it $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright test"
 }
 
 #Copy playwright results locally-------------------------#
@@ -120,7 +124,7 @@ kubectl exec -it $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "t
         echo -e "${BBlue}Waiting for results...${NC}"	
         else
         sleep 5
-        kubectl cp default/$POD3:/var/POC-Jenkins-Kubernetes/test-results/test-results.xml ../POC-Jenkins-Kubernetes/test-results/test-results.xml
+        kubectl cp default/$POD3:/var/POC-Jenkins-Kubernetes/test-results/test-results.xml ./test-results.xml 2>/dev/null 1>/dev/null
         echo -e "${Green}Files copied${NC}"
         break
         fi
@@ -173,7 +177,7 @@ deploying_linux
 copy_resources
 verify_node_npm
 #verify_apache_online
-execute_playwright_tests
+install_execute_playwright_tests
 copy_playwright_results
 #verify_install_prometheus_grafana
 #tunneling_port_forward
