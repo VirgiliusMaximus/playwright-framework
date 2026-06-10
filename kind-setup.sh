@@ -16,6 +16,7 @@
 #                  
 #
 #*** DESCRIPTION *********************************************************
+secret="$1"
 
 RED="\033[0;31m"
 NC='\033[0m'
@@ -42,7 +43,7 @@ function check_nodes_ready() {
 for ((i=1;i<500;i++)) do
    statusReady=$(kubectl get nodes | awk '{print $2 }' | cut -d "%" -f1 -| grep -cU '\bReady\b')
 	if [[ "$statusReady" != 3 ]]; then
-	echo -e "${PURPLE}Waiting for nodes to be ready...${NC}"
+	echo -e "${BBlue}Waiting for nodes to be ready...${NC}"
 	sleep 45
 	else
 	sleep 30
@@ -60,7 +61,7 @@ kubectl apply -f kind-playwright.yaml #instal and execute playwright
 for ((i=1;i<5000;i++)) do
     statusRun1=$(kubectl get pods -n default | grep 'Running\|Completed'| awk '{print $3 }' | cut -d "%" -f1 -)
         if [[ $statusRun1 != "Running" ]]; then
-        echo -e "${PURPLE}Waiting for the pods to run...${NC}"
+        echo -e "${BBlue}Waiting for the pods to run...${NC}"
         sleep 20
         else
         echo -e "${Green}Pod is running${NC}"
@@ -89,7 +90,7 @@ POD4=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.nam
 for ((i=1;i<5000;i++)) do
 	kubectl exec -i $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
-        echo -e "${PURPLE}Waiting for npm installation${NC}"
+        echo -e "${BBlue}Waiting for npm installation${NC}"
         sleep 30
         else
         echo -e "${Green}Actual node and npm versions:${NC}"
@@ -101,12 +102,12 @@ done
 }
 
 #Install and execute Playwright tests-------------------------#
-function install_execute_playwright_tests() { 
+function install_execute_playwright_tests() {    
 POD2=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-        echo -e "${PURPLE}Waiting for npm ci and playwright installation...${NC}"
+        echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
 	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
-        echo -e "${PURPLE}Executing Playwright tests...${NC}"
-        kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright test"
+        echo -e "${BBlue}Executing Playwright tests...${NC}"
+        kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
 }
 
 #Copy playwright results locally-------------------------#
@@ -120,7 +121,7 @@ for ((i=1;i<5000;i++)) do
         else
         sleep 5
         kubectl cp default/$POD3:/var/POC-Jenkins-Kubernetes/test-results/test-results.xml ./test-results.xml 2>/dev/null 1>/dev/null
-        echo -e "${Green}Files copied${NC}"
+        echo -e "${Green}Results are ready.${NC}"
         break
         fi
 done
@@ -133,7 +134,7 @@ statusRun3=$(kubectl get pods -n monitoring | grep 'prometheus-grafana'| awk '{p
         echo -e "${BBlue}Check all prometheus and grafana are running.${NC}"
         	while [ "$(kubectl get pods --field-selector=status.phase=Running -n monitoring | grep -c prometheus)" != 8 ]
   		do
-  		echo -e "${PURPLE}Waiting to run all the pods...${NC}"
+  		echo -e "${BBlue}Waiting to run all the pods...${NC}"
     		sleep 35
   		done
   		echo -e "${Green}All prometheus and grafana pods are running${NC}"
@@ -142,7 +143,7 @@ statusRun3=$(kubectl get pods -n monitoring | grep 'prometheus-grafana'| awk '{p
         helm install prometheus prometheus-community/kube-prometheus-stack --version 82.16.0 --namespace monitoring --create-namespace
                 while [ "$(kubectl get pods --field-selector=status.phase=Running -n monitoring | grep -c prometheus)" != 8 ]
   		do
-  		echo -e "${PURPLE}Waiting to run all the pods...${NC}"
+  		echo -e "${BBlue}Waiting to run all the pods...${NC}"
     		sleep 35
   		done
   		echo -e "${Green}All prometheus and grafana pods installed and successfully running${NC}"
