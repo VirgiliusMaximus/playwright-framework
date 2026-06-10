@@ -107,9 +107,7 @@ POD2=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.nam
         echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
 	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
         echo -e "${BBlue}Executing Playwright tests...${NC}"
-        echo $secret
         kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
-        echo $secret
 }
 
 #Copy playwright results locally-------------------------#
