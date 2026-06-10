@@ -26,7 +26,7 @@ Green="\033[0;32m"
 White="\033[00m"
 Yellow="\033[01;33m"
 
-#Check if minikube cluster is online------------------------------------------------#
+#Check if kind cluster is up------------------------------------------------#
 function check_kind_online() { 
 status=$(ps -ef | grep -v grep | grep "/etc/kubernetes/controller-manager.conf" | awk '{print $8 }' | cut -d "%" -f1 -)
 if [[ "$status" == "kube-controller-manager" ]]; then
@@ -37,6 +37,7 @@ kind create cluster --config kind-config.yaml
 fi
 }
 
+#Check if nodes are ready---------------------------------------------------------#
 function check_nodes_ready() { 
 for ((i=1;i<500;i++)) do
    statusReady=$(kubectl get nodes | awk '{print $2 }' | cut -d "%" -f1 -| grep -cU '\bReady\b')
@@ -49,10 +50,9 @@ for ((i=1;i<500;i++)) do
 	break
 	fi
 done
-
 }
 
-#Deploy my yaml file---------------------------------------------------------#
+#Deploy yaml file---------------------------------------------------------#
 function deploying_linux() { 
 echo -e "${BBlue}Executing yaml files${NC}"
 kubectl apply -f kind-playwright.yaml #instal and execute playwright
@@ -69,7 +69,7 @@ for ((i=1;i<5000;i++)) do
 done
 }
 
-#Copy site resources into the container-------------------------#
+#Copy resources into the container-------------------------#
 function copy_resources() { 
 POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
 	kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
@@ -81,8 +81,6 @@ POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name
         else
         echo -e "${Green}Files already there.${NC}"
         fi
-
-
 }
 
 #Check node/npm version-------------------------#
@@ -100,10 +98,7 @@ for ((i=1;i<5000;i++)) do
         break
         fi
 done
-
 }
-
-
 
 #Install and execute Playwright tests-------------------------#
 function install_execute_playwright_tests() { 
@@ -129,9 +124,7 @@ kubectl exec -it $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "t
         break
         fi
 done
-
 }
-
 
 #Verify/install prometheus and grafana-------------------------#
 function verify_install_prometheus_grafana() {
