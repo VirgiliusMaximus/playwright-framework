@@ -56,7 +56,7 @@ done
 function deploying_linux() { 
 echo -e "${BBlue}Executing yaml files${NC}"
 kubectl apply -f kind-playwright.yaml #instal and execute playwright
-chmod -R 777 /home/corneliusmaximus/persistentVolume/
+#chmod -R 777 /home/corneliusmaximus/persistentVolume/
 for ((i=1;i<5000;i++)) do
     statusRun1=$(kubectl get pods -n default | grep 'Running\|Completed'| awk '{print $3 }' | cut -d "%" -f1 -)
         if [[ $statusRun1 != "Running" ]]; then
@@ -75,7 +75,7 @@ POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name
 	kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${PURPLE}Copying files into the container...${NC}"
-	kubectl cp /home/corneliusmaximus/POC-Jenkins-Kubernetes/ default/$POD:/var/
+	kubectl cp . default/$POD:/var/POC-Jenkins-Kubernetes/
 	kubectl exec -it $POD -- chmod -R 777 /var/POC-Jenkins-Kubernetes/
         kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/
         else

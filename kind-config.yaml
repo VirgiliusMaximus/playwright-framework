@@ -5,9 +5,9 @@ nodes:
   - role: control-plane
   - role: worker
     extraMounts:
-      - hostPath: /home/corneliusmaximus/persistentVolume/folder1
+      - hostPath: /kubernetes-volume/persistentVolume/folder1
         containerPath: /some/path/in/container
   - role: worker
     extraMounts:
-      - hostPath: /home/corneliusmaximus/persistentVolume/folder2
+      - hostPath: /kubernetes-volume/persistentVolume/folder2
         containerPath: /some/path/in/container
