@@ -72,12 +72,12 @@ done
 #Copy resources into the container-------------------------#
 function copy_resources() { 
 POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-	kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
+	kubectl exec -i $POD -- ls /var/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
-        echo -e "${PURPLE}Copying files into the container...${NC}"
+        echo -e "${PURPLE}Ups! Files not found. Copying files into the container...${NC}"
 	kubectl cp . default/$POD:/var/POC-Jenkins-Kubernetes/
-	kubectl exec -it $POD -- chmod -R 777 /var/POC-Jenkins-Kubernetes/
-        kubectl exec -it $POD -- ls /var/POC-Jenkins-Kubernetes/
+	kubectl exec -i $POD -- chmod -R 777 /var/POC-Jenkins-Kubernetes/
+        kubectl exec -i $POD -- ls /var/POC-Jenkins-Kubernetes/
         else
         echo -e "${Green}Files already there.${NC}"
         fi
@@ -87,14 +87,14 @@ POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name
 function verify_node_npm() { 
 POD4=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
 for ((i=1;i<5000;i++)) do
-	kubectl exec -it $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
+	kubectl exec -i $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${PURPLE}Waiting for npm installation${NC}"
         sleep 30
         else
         echo -e "${Green}Actual node and npm versions:${NC}"
-        kubectl exec -it $POD4 -- /bin/bash -c "npm -v"
-        kubectl exec -it $POD4 -- /bin/bash -c "node -v"
+        kubectl exec -i $POD4 -- /bin/bash -c "npm -v"
+        kubectl exec -i $POD4 -- /bin/bash -c "node -v"
         break
         fi
 done
@@ -103,17 +103,17 @@ done
 #Install and execute Playwright tests-------------------------#
 function install_execute_playwright_tests() { 
 POD2=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-        echo -e "${PURPLE}Waiting for npm and playwright installation...${NC}"
-	kubectl exec -it $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
+        echo -e "${PURPLE}Waiting for npm ci and playwright installation...${NC}"
+	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
         echo -e "${PURPLE}Executing Playwright tests...${NC}"
-        kubectl exec -it $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright test"
+        kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright test"
 }
 
 #Copy playwright results locally-------------------------#
 function copy_playwright_results() { 
 POD3=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
 for ((i=1;i<5000;i++)) do
-kubectl exec -it $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
+        kubectl exec -i $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         sleep 20
         echo -e "${BBlue}Waiting for results...${NC}"	
