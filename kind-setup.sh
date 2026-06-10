@@ -169,7 +169,6 @@ check_nodes_ready
 deploying_linux
 copy_resources
 verify_node_npm
-#verify_apache_online
 install_execute_playwright_tests
 copy_playwright_results
 #verify_install_prometheus_grafana
