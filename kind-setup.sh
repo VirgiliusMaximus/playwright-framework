@@ -34,6 +34,7 @@ echo -e "${Green}Kind is online${NC}"
 else
 echo -e "${RED}Kind is offline.Starting kind cluster${NC}"
 kind create cluster --config kind-config.yaml
+echo -e "${RED}Don't forget to set the kubeconfig${NC}"
 fi
 }
 
