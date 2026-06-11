@@ -121,6 +121,7 @@ for ((i=1;i<5000;i++)) do
         else
         sleep 5
         kubectl cp default/$POD3:/var/POC-Jenkins-Kubernetes/test-results/test-results.xml ./test-results.xml 2>/dev/null 1>/dev/null
+        kubectl cp default/$POD3:/var/POC-Jenkins-Kubernetes/allure-results/ ./allure-results/ 2>/dev/null 1>/dev/null
         echo -e "${Green}Results are ready.${NC}"
         break
         fi
