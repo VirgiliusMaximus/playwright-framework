@@ -53,7 +53,7 @@ for ((i=1;i<500;i++)) do
 done
 }
 
-#Deploy yaml file---------------------------------------------------------#
+#Deploy yaml file for linux container---------------------------------------------------------#
 function deploying_linux() { 
 echo -e "${BBlue}Executing yaml files${NC}"
 kubectl apply -f kind-playwright.yaml #instal and execute playwright
