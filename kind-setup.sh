@@ -2,16 +2,16 @@
 #!/bin/bash
 #*** DESCRIPTION ********************************************************
 #
-# MODULE:          Setup and start my app using kind cluster
+# MODULE:          Setup a kind cluster for running Playwright tests and monitoring with Prometheus and Grafana.
 #
 # DESCRIPTION:     - run ubuntu image
-#                  - install apache2 and php-apache
-#                  - deploy site to the container
+#                  - install node and npm
+#                  - copy playwright project to the container
+#                  - execute Playwright tests
+#                  - copy results to Jenkins workspace
 #                  - install prometheus and grafana for monitoring
-#                  - redirect traffic
 #                  
 #                   
-#
 # OWNER:           Virgil Buse
 #                  
 #
