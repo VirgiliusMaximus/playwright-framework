@@ -15,7 +15,7 @@ import restfulBookerApiData from '../../data/api-data/restful-booker-api-data.js
 //      console.log(await booking1.json());
 // });
 
-test('Retful Booker API Module 1 - verify if user is able to fetch booking IDs', { 
+test('Restful Booker API Module 1 - verify if user is able to fetch booking IDs', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
@@ -36,7 +36,7 @@ test('Retful Booker API Module 1 - verify if user is able to fetch booking IDs',
 
 });
 
-test('Retful Booker API Module 2- verify if user is able to fetch booking IDs 2', { 
+test('Restful Booker API Module 2- verify if user is able to fetch booking IDs 2', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
@@ -59,7 +59,7 @@ test('Retful Booker API Module 2- verify if user is able to fetch booking IDs 2'
 
 });
 
-test('Retful Booker API Module 3- verify if user is able to POST(create)', { 
+test('Restful Booker API Module 3- verify if user is able to POST(create)', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
@@ -85,7 +85,7 @@ test('Retful Booker API Module 3- verify if user is able to POST(create)', {
     console.log(jsonCreateBookingRsp);
 });
 
-test('Retful Booker API Module 4- verify if user is able to PUT(update)', { 
+test('Restful Booker API Module 4- verify if user is able to PUT(update)', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
@@ -111,7 +111,7 @@ test('Retful Booker API Module 4- verify if user is able to PUT(update)', {
     console.log(jsonUpdateBookingRsp);
 });
 
-test('Retful Booker API Module 4-1- verify if user is able to PUT(update) with token', { 
+test('Restful Booker API Module 4-1- verify if user is able to PUT(update) with token', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
@@ -134,7 +134,7 @@ test('Retful Booker API Module 4-1- verify if user is able to PUT(update) with t
    
 });
 
-test('Retful Booker API Module 5- verify if user is able to PATCH(update) with token', { 
+test('Restful Booker API Module 5- verify if user is able to PATCH(update) with token', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
@@ -157,7 +157,7 @@ test('Retful Booker API Module 5- verify if user is able to PATCH(update) with t
    
 });
 
-test('Retful Booker API Module 6- verify if user is able to DELETE with token', { 
+test('Restful Booker API Module 6- verify if user is able to DELETE with token', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
