@@ -90,10 +90,10 @@ POD4=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.nam
 for ((i=1;i<5000;i++)) do
 	kubectl exec -i $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
-        echo -e "${BBlue}Waiting for npm installation${NC}"
+        echo -e "${BBlue}Waiting for node/npm installation${NC}"
         sleep 30
         else
-        echo -e "${Green}Actual node and npm versions:${NC}"
+        echo -e "${Green}Actual npm and node versions:${NC}"
         kubectl exec -i $POD4 -- /bin/bash -c "npm -v"
         kubectl exec -i $POD4 -- /bin/bash -c "node -v"
         break
