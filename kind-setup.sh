@@ -28,8 +28,8 @@ Yellow="\033[01;33m"
 
 #Check if kind cluster is up------------------------------------------------#
 function check_kind_online() { 
-status=$(ps -ef | grep -v grep | grep "/etc/kubernetes/controller-manager.conf" | awk '{print $8 }' | cut -d "%" -f1 -)
-if [[ "$status" == "kube-controller-manager" ]]; then
+status=$(ps -ef | grep -v grep | grep "/etc/kubernetes/pki/etcd/server.crt" | awk '{print $8 }' | cut -d "%" -f1 -)
+if [[ "$status" == "etcd" ]]; then
 echo -e "${Green}Kind is online${NC}"
 else
 echo -e "${RED}Kind is offline.Starting kind cluster${NC}"
