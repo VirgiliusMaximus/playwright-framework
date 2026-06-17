@@ -153,15 +153,15 @@ kubectl get pods -n monitoring
 echo -e "${RED}Grafana pass:${NC}";kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --d; echo
 }
 
-#Create tunneling with minikube and port forward for prometheus/grafana-------------------------#
+#Expose prometheus and grafana-------------------------#
 function tunneling_port_forward() { 
-echo -e "${BBlue}Starting the port forward${NC}"
-gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80'
+echo -e "${BBlue}Starting the port forward for prometheus and grafana...${NC}"
+gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80'
 gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090'
 
-echo -e "${BBlue}Starting kind routing${NC}"
-gnome-terminal -- /bin/sh -c 'sudo cloud-provider-kind'
-sleep 5
+#echo -e "${BBlue}Starting kind routing${NC}"
+#gnome-terminal -- /bin/sh -c 'sudo cloud-provider-kind'
+#sleep 5
 
 }
 
@@ -173,10 +173,10 @@ copy_resources
 verify_node_npm
 install_execute_playwright_tests
 copy_playwright_results
-#verify_install_prometheus_grafana
-#tunneling_port_forward
-#sleep 30
-#kubectl get svc -o wide
+verify_install_prometheus_grafana
+tunneling_port_forward
+sleep 30
+kubectl get svc -o wide
 exit 0
 
 
