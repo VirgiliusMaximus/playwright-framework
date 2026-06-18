@@ -72,7 +72,7 @@ done
 
 #Copy resources into the container-------------------------#
 function copy_resources() { 
-POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
+POD=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
 	kubectl exec -i $POD -- ls /var/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${PURPLE}Ups! Files not found. Copying files into the container...${NC}"
@@ -86,7 +86,7 @@ POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name
 
 #Check node/npm version-------------------------#
 function verify_node_npm() { 
-POD4=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
+POD4=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
 for ((i=1;i<50;i++)) do
 	kubectl exec -i $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
@@ -100,19 +100,33 @@ for ((i=1;i<50;i++)) do
         fi
 done
 }
-
+#Check Playwright installation-------------------------#
+function verify_playwright_installation() {    
+POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
+for ((i=1;i<50;i++)) do
+	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright --version" 2>/dev/null 1>/dev/null
+        if [[ $? != "0" ]]; then
+        echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
+        sleep 30
+        else
+        echo -e "${Green}Actual playwright version:${NC}"
+        kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright --version"
+        break
+        fi
+done
+}
 #Install and execute Playwright tests-------------------------#
 function install_execute_playwright_tests() {    
-POD2=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-        echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
-	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
+POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
+        #echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
+	#kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
         echo -e "${BBlue}Executing Playwright tests...${NC}"
         kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
 }
 
 #Copy playwright results locally-------------------------#
 function copy_playwright_results() { 
-POD3=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
+POD3=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
 for ((i=1;i<30;i++)) do
         kubectl exec -i $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
@@ -171,6 +185,7 @@ check_nodes_ready
 deploying_linux
 copy_resources
 verify_node_npm
+verify_playwright_installation
 install_execute_playwright_tests
 copy_playwright_results
 verify_install_prometheus_grafana
