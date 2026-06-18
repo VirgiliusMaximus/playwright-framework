@@ -80,7 +80,7 @@ spec:
           claimName: pvc01
       containers:
       - name: virgilius-container
-        image: ubuntu:22.04
+        image: ubuntu:24.04
         command: ["/bin/sh", "-c", "chmod 777 /some/mount/path/install_playwright.sh && cd /some/mount/path && ./install_playwright.sh && sleep 3600"]
         volumeMounts:
           - name: storage
