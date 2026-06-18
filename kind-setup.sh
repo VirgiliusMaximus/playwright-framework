@@ -113,7 +113,7 @@ POD2=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.nam
 #Copy playwright results locally-------------------------#
 function copy_playwright_results() { 
 POD3=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-for ((i=1;i<5000;i++)) do
+for ((i=1;i<30;i++)) do
         kubectl exec -i $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         sleep 20
