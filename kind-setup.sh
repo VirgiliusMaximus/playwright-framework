@@ -40,7 +40,7 @@ fi
 
 #Check if nodes are ready---------------------------------------------------------#
 function check_nodes_ready() { 
-for ((i=1;i<500;i++)) do
+for ((i=1;i<50;i++)) do
    statusReady=$(kubectl get nodes | awk '{print $2 }' | cut -d "%" -f1 -| grep -cU '\bReady\b')
 	if [[ "$statusReady" != 3 ]]; then
 	echo -e "${BBlue}Waiting for nodes to be ready...${NC}"
@@ -58,7 +58,7 @@ function deploying_linux() {
 echo -e "${BBlue}Executing yaml files${NC}"
 kubectl apply -f kind-playwright.yaml #instal and execute playwright
 #chmod -R 777 /home/corneliusmaximus/persistentVolume/
-for ((i=1;i<5000;i++)) do
+for ((i=1;i<50;i++)) do
     statusRun1=$(kubectl get pods -n default | grep 'Running\|Completed'| awk '{print $3 }' | cut -d "%" -f1 -)
         if [[ $statusRun1 != "Running" ]]; then
         echo -e "${BBlue}Waiting for the pods to run...${NC}"
@@ -87,7 +87,7 @@ POD=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name
 #Check node/npm version-------------------------#
 function verify_node_npm() { 
 POD4=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-for ((i=1;i<5000;i++)) do
+for ((i=1;i<50;i++)) do
 	kubectl exec -i $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${BBlue}Waiting for node/npm installation${NC}"
@@ -113,7 +113,7 @@ POD2=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.nam
 #Copy playwright results locally-------------------------#
 function copy_playwright_results() { 
 POD3=$(kubectl get pod -l app=virgilius-app -o jsonpath="{.items[0].metadata.name}")
-for ((i=1;i<5000;i++)) do
+for ((i=1;i<30;i++)) do
         kubectl exec -i $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         sleep 20
