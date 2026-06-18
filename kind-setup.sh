@@ -159,9 +159,9 @@ echo -e "${BBlue}Starting the port forward for prometheus and grafana...${NC}"
 gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80'
 gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090'
 
-#echo -e "${BBlue}Starting kind routing${NC}"
-#gnome-terminal -- /bin/sh -c 'sudo cloud-provider-kind'
-#sleep 5
+echo -e "${BBlue}Starting kind routing${NC}"
+gnome-terminal -- /bin/sh -c 'sudo cloud-provider-kind'  # for web routing if u have a site
+sleep 5
 
 }
 
@@ -174,7 +174,7 @@ verify_node_npm
 install_execute_playwright_tests
 copy_playwright_results
 verify_install_prometheus_grafana
-tunneling_port_forward
+#tunneling_port_forward
 sleep 30
 kubectl get svc -o wide
 exit 0
