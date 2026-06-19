@@ -104,8 +104,8 @@ done
 function verify_playwright_installation() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
 for ((i=1;i<50;i++)) do
-	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright --version" 2>/dev/null 1>/dev/null
-        if [[ $? != "0" ]]; then
+	version=$(kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright --version")
+        if [[ $version != "Version 1.60.0" ]]; then
         echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
         sleep 30
         else
