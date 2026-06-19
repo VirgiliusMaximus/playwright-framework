@@ -11,7 +11,7 @@ spec:
     storage: 100Mi
   storageClassName: standard
   local:
-    path: /some/path/in/container # Replace with the path to your local storage
+    path: /some/path/in/container
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -34,7 +34,7 @@ spec:
     storage: 100Mi
   storageClassName: standard
   local:
-    path: /some/path/in/container # Replace with the path to your local storage
+    path: /some/path/in/container
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -61,30 +61,30 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: virgilius-deployment
+  name: playwright-deployment
   labels:
-    app: virgilius-app
+    app: playwright-run
 spec:
   selector:
     matchLabels:
-      app: virgilius-app
+      app: playwright-run
   replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: virgilius-app
+        app: playwright-run
     spec:
       volumes:
       - name: storage
         persistentVolumeClaim:
           claimName: pvc01
       containers:
-      - name: virgilius-container
+      - name: playwright-container
         image: ubuntu:24.04
-        command: ["/bin/sh", "-c", "chmod 777 /some/mount/path/install_playwright.sh && cd /some/mount/path && ./install_playwright.sh && sleep 3600"]
+        command: ["/bin/sh", "-c", "chmod 777 /playwright/install_playwright.sh && cd /playwright && ./install_playwright.sh && sleep 3600"]
         volumeMounts:
           - name: storage
-            mountPath: /some/mount/path
+            mountPath: /playwright
         ports:
         - name: http
           containerPort: 80
@@ -98,7 +98,7 @@ metadata:
   name: kind-loadbalancer
 spec:
   selector:
-    app: virgilius-app
+    app: playwright-run
   type: LoadBalancer
   ports:
   - protocol: TCP
