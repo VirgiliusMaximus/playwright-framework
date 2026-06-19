@@ -188,7 +188,7 @@ verify_node_npm
 verify_playwright_installation
 install_execute_playwright_tests
 copy_playwright_results
-#verify_install_prometheus_grafana
+verify_install_prometheus_grafana
 #tunneling_port_forward
 sleep 30
 kubectl get svc -o wide
