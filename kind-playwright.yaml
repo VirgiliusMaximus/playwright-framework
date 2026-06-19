@@ -80,7 +80,7 @@ spec:
           claimName: pvc01
       containers:
       - name: playwright-container
-        image: ubuntu:24.04
+        image: ubuntu:latest
         command: ["/bin/sh", "-c", "chmod 777 /playwright/install_playwright.sh && cd /playwright && ./install_playwright.sh && sleep 3600"]
         volumeMounts:
           - name: storage

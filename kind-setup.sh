@@ -118,8 +118,8 @@ done
 #Install and execute Playwright tests-------------------------#
 function install_execute_playwright_tests() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
-        #echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
-	#kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
+        echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
+	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
         echo -e "${BBlue}Executing Playwright tests...${NC}"
         kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
 }
