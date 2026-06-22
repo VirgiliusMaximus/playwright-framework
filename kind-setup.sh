@@ -99,14 +99,14 @@ for ((i=1;i<50;i++)) do
         fi
 done
 }
-#Check Playwright installation-------------------------#
+#Check Playwright installation and dependencies-------------------------#
 function verify_playwright_installation() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
-for ((i=1;i<30;i++)) do
+for ((i=1;i<20;i++)) do
 	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright install --list | grep node_modules" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${BBlue}Waiting for playwright instalation and dependencies...${NC}"
-        sleep 200
+        sleep 600
         else
         echo -e "${Green}Actual playwright version:${NC}"
         kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright --version"
@@ -114,11 +114,9 @@ for ((i=1;i<30;i++)) do
         fi
 done
 }
-#Install and execute Playwright tests-------------------------#
+#Execute Playwright tests-------------------------#
 function execute_playwright_tests() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
-        #echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
-	#kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps"
         echo -e "${BBlue}Executing Playwright tests...${NC}"
         kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
 }
@@ -162,8 +160,8 @@ statusRun3=$(kubectl get pods -n monitoring | grep 'prometheus-grafana'| awk '{p
   		done
   		echo -e "${Green}All prometheus and grafana pods installed and successfully running${NC}"
         fi
-kubectl get pods -n monitoring
-echo -e "${RED}Grafana port forward for access:<kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80>${NC}" 
+kubectl get pods --all-namespaces -o wide
+echo -e "${RED}Grafana port forward for web access:${NC}${BBlue}kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80${NC}" 
 echo -e "${RED}Grafana pass:${NC}";kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --d; echo
 }
 
@@ -190,8 +188,6 @@ execute_playwright_tests
 copy_playwright_results
 verify_install_prometheus_grafana
 #tunneling_port_forward
-sleep 30
-kubectl get svc -o wide
 exit 0
 
 
