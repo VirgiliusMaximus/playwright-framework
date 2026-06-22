@@ -81,7 +81,7 @@ spec:
       containers:
       - name: playwright-container
         image: ubuntu:24.04
-        command: ["/bin/sh", "-c", "chmod 777 /playwright/install_playwright.sh && cd /playwright && ./install_playwright.sh && sleep 3600"]
+        command: ["/bin/sh", "-c", "chmod 777 /playwright/install_playwright.sh && cd /playwright && ./install_playwright.sh && sleep 360000"]
         volumeMounts:
           - name: storage
             mountPath: /playwright
