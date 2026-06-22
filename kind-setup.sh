@@ -163,7 +163,7 @@ statusRun3=$(kubectl get pods -n monitoring | grep 'prometheus-grafana'| awk '{p
   		echo -e "${Green}All prometheus and grafana pods installed and successfully running${NC}"
         fi
 kubectl get pods -n monitoring
-echo -e "${RED}Grafana port forward for access:<kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80>${NC} 
+echo -e "${RED}Grafana port forward for access:<kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80>${NC}" 
 echo -e "${RED}Grafana pass:${NC}";kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --d; echo
 }
 
