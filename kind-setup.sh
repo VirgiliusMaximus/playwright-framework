@@ -56,8 +56,7 @@ done
 #Deploy yaml file for linux container---------------------------------------------------------#
 function deploying_linux() { 
 echo -e "${BBlue}Executing yaml files${NC}"
-kubectl apply -f kind-playwright.yaml #instal and execute playwright
-#chmod -R 777 /home/corneliusmaximus/persistentVolume/
+kubectl apply -f kind-playwright.yaml #instal and execute playwright sitespeedio/node:ubuntu-24-04-nodejs-24.15.0
 for ((i=1;i<50;i++)) do
     statusRun1=$(kubectl get pods -n default | grep 'Running\|Completed'| awk '{print $3 }' | cut -d "%" -f1 -)
         if [[ $statusRun1 != "Running" ]]; then
@@ -91,7 +90,7 @@ for ((i=1;i<50;i++)) do
 	kubectl exec -i $POD4 -- /bin/bash -c "npm -v" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${BBlue}Waiting for node/npm installation${NC}"
-        sleep 30
+        sleep 60
         else
         echo -e "${Green}Actual npm and node versions:${NC}"
         kubectl exec -i $POD4 -- /bin/bash -c "npm -v"
@@ -103,11 +102,11 @@ done
 #Check Playwright installation-------------------------#
 function verify_playwright_installation() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
-for ((i=1;i<50;i++)) do
-	version=$(kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright --version")
-        if [[ $version != "Version 1.60.0" ]]; then
-        echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
-        sleep 30
+for ((i=1;i<30;i++)) do
+	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright install --list | grep node_modules" 2>/dev/null 1>/dev/null
+        if [[ $? != "0" ]]; then
+        echo -e "${BBlue}Waiting for playwright instalation and dependencies...${NC}"
+        sleep 200
         else
         echo -e "${Green}Actual playwright version:${NC}"
         kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright --version"
@@ -116,10 +115,10 @@ for ((i=1;i<50;i++)) do
 done
 }
 #Install and execute Playwright tests-------------------------#
-function install_execute_playwright_tests() {    
+function execute_playwright_tests() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
-        echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
-	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps" 2>/dev/null 1>/dev/null
+        #echo -e "${BBlue}Waiting for npm ci and playwright installation...${NC}"
+	#kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps"
         echo -e "${BBlue}Executing Playwright tests...${NC}"
         kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
 }
@@ -164,6 +163,7 @@ statusRun3=$(kubectl get pods -n monitoring | grep 'prometheus-grafana'| awk '{p
   		echo -e "${Green}All prometheus and grafana pods installed and successfully running${NC}"
         fi
 kubectl get pods -n monitoring
+echo -e "${RED}Grafana port forward for access:<kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80>${NC} 
 echo -e "${RED}Grafana pass:${NC}";kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --d; echo
 }
 
@@ -186,7 +186,7 @@ deploying_linux
 copy_resources
 verify_node_npm
 verify_playwright_installation
-install_execute_playwright_tests
+execute_playwright_tests
 copy_playwright_results
 verify_install_prometheus_grafana
 #tunneling_port_forward
