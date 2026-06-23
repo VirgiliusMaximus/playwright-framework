@@ -115,10 +115,10 @@ for ((i=1;i<20;i++)) do
 done
 }
 #Execute Playwright tests-------------------------#
-function execute_playwright_tests() {    
+function install_and_execute_playwright_tests() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
-        #echo -e "${BBlue}Installing Playwright dependencies...${NC}"
-        #kubectl exec -i $POD2 -- /bin/bash -c "cd /POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps"
+        echo -e "${BBlue}Installing Playwright dependencies...${NC}"
+        kubectl exec -i $POD2 -- /bin/bash -c "cd /POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps"
         echo -e "${BBlue}Executing Playwright tests...${NC}"
         kubectl exec -i $POD2 -- /bin/bash -c "cd /POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
 }
@@ -186,7 +186,7 @@ deploying_linux
 copy_resources
 verify_node_npm
 verify_playwright_installation
-execute_playwright_tests
+install_and_execute_playwright_tests
 copy_playwright_results
 verify_install_prometheus_grafana
 #tunneling_port_forward
