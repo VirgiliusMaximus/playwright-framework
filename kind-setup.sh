@@ -58,7 +58,7 @@ function deploying_linux() {
 echo -e "${BBlue}Executing yaml files${NC}"
 kubectl apply -f kind-playwright.yaml #instal and execute playwright sitespeedio/node:ubuntu-24-04-nodejs-24.15.0
 for ((i=1;i<50;i++)) do
-    statusRun1=$(kubectl get pods -n default | grep 'Running\|Completed'| awk '{print $3 }' | cut -d "%" -f1 -)
+    statusRun1=$(kubectl get pods -n default | grep 'Running\|ContainerCreating\|Pending\|Terminating'| awk '{print $3 }' | cut -d "%" -f1 -)
         if [[ $statusRun1 != "Running" ]]; then
         echo -e "${BBlue}Waiting for the pods to run...${NC}"
         sleep 20
