@@ -72,12 +72,12 @@ done
 #Copy resources into the container-------------------------#
 function copy_resources() { 
 POD=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
-	kubectl exec -i $POD -- ls /var/POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
+	kubectl exec -i $POD -- ls /POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${PURPLE}Ups! Files not found. Copying files into the container...${NC}"
-	kubectl cp . default/$POD:/var/POC-Jenkins-Kubernetes/
-	kubectl exec -i $POD -- chmod -R 777 /var/POC-Jenkins-Kubernetes/
-        kubectl exec -i $POD -- ls /var/POC-Jenkins-Kubernetes/
+	kubectl cp . default/$POD:/POC-Jenkins-Kubernetes/
+	kubectl exec -i $POD -- chmod -R 777 /POC-Jenkins-Kubernetes/
+        kubectl exec -i $POD -- ls /POC-Jenkins-Kubernetes/
         else
         echo -e "${Green}Files already there.${NC}"
         fi
@@ -103,13 +103,13 @@ done
 function verify_playwright_installation() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
 for ((i=1;i<20;i++)) do
-	kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright install --list | grep node_modules" 2>/dev/null 1>/dev/null
+	kubectl exec -i $POD2 -- /bin/bash -c "cd /POC-Jenkins-Kubernetes/ && npx playwright install --list | grep node_modules" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         echo -e "${BBlue}Waiting for playwright instalation and dependencies...${NC}"
-        sleep 600
+        sleep 60
         else
         echo -e "${Green}Actual playwright version:${NC}"
-        kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && npx playwright --version"
+        kubectl exec -i $POD2 -- /bin/bash -c "cd /POC-Jenkins-Kubernetes/ && npx playwright --version"
         break
         fi
 done
@@ -117,22 +117,24 @@ done
 #Execute Playwright tests-------------------------#
 function execute_playwright_tests() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
+        #echo -e "${BBlue}Installing Playwright dependencies...${NC}"
+        #kubectl exec -i $POD2 -- /bin/bash -c "cd /POC-Jenkins-Kubernetes/ && npm ci && npx playwright install --with-deps"
         echo -e "${BBlue}Executing Playwright tests...${NC}"
-        kubectl exec -i $POD2 -- /bin/bash -c "cd /var/POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
+        kubectl exec -i $POD2 -- /bin/bash -c "cd /POC-Jenkins-Kubernetes/ && SECRET_KEY=$secret npm run test_demo_headless"
 }
 
 #Copy playwright results locally-------------------------#
 function copy_playwright_results() { 
 POD3=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
 for ((i=1;i<30;i++)) do
-        kubectl exec -i $POD3 -- ls /var/POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
+        kubectl exec -i $POD3 -- ls /POC-Jenkins-Kubernetes/test-results/ | grep "test-results.xml" 2>/dev/null 1>/dev/null
         if [[ $? != "0" ]]; then
         sleep 20
         echo -e "${BBlue}Waiting for results...${NC}"	
         else
         sleep 5
-        kubectl cp default/$POD3:/var/POC-Jenkins-Kubernetes/test-results/test-results.xml ./test-results.xml 2>/dev/null 1>/dev/null
-        kubectl cp default/$POD3:/var/POC-Jenkins-Kubernetes/allure-results/ ./allure-results/ 2>/dev/null 1>/dev/null
+        kubectl cp default/$POD3:/POC-Jenkins-Kubernetes/test-results/test-results.xml ./test-results.xml 2>/dev/null 1>/dev/null
+        kubectl cp default/$POD3:/POC-Jenkins-Kubernetes/allure-results/ ./allure-results/ 2>/dev/null 1>/dev/null
         echo -e "${Green}Results are ready.${NC}"
         break
         fi
