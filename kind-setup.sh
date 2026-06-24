@@ -152,6 +152,8 @@ statusRun3=$(kubectl get pods -n monitoring | grep 'prometheus-grafana'| awk '{p
     		sleep 35
   		done
   		echo -e "${Green}All prometheus and grafana pods are running${NC}"
+                echo -e "${RED}Grafana port forward for web access:${NC}${BBlue} kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80${NC}" 
+                echo -e "${RED}Grafana pass:${NC}";${BBlue}`kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --d; echo`
         else
         if whoami | grep -q "jenkins"; then
         echo -e "${RED}Prometheus and Grafana not installed.Proceed with manual installation as other user then jenkins${NC}"
