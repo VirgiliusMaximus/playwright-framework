@@ -153,24 +153,30 @@ statusRun3=$(kubectl get pods -n monitoring | grep 'prometheus-grafana'| awk '{p
   		done
   		echo -e "${Green}All prometheus and grafana pods are running${NC}"
         else
+        if whoami | grep -q "jenkins"; then
+        echo -e "${RED}Prometheus and Grafana not installed.Proceed with manual installation as other user then jenkins${NC}"
+        else
         echo -e "${RED}Prometheus and Grafana not installed.Proceed with installation${NC}"
-        helm install prometheus prometheus-community/kube-prometheus-stack --version 82.16.0 --namespace monitoring --create-namespace
+
+        helm install prometheus prometheus-community/kube-prometheus-stack --version 45.7.1 --namespace monitoring --create-namespace
                 while [ "$(kubectl get pods --field-selector=status.phase=Running -n monitoring | grep -c prometheus)" != 8 ]
   		do
   		echo -e "${BBlue}Waiting to run all the pods...${NC}"
     		sleep 35
   		done
   		echo -e "${Green}All prometheus and grafana pods installed and successfully running${NC}"
+                kubectl get pods --all-namespaces -o wide
+                echo -e "${RED}Grafana port forward for web access:${NC}${BBlue} kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80${NC}" 
+                echo -e "${RED}Grafana pass:${NC}";${BBlue}`kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --d; echo`
         fi
-kubectl get pods --all-namespaces -o wide
-echo -e "${RED}Grafana port forward for web access:${NC}${BBlue}kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80${NC}" 
-echo -e "${RED}Grafana pass:${NC}";kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --d; echo
+        fi
+
 }
 
 #Expose prometheus and grafana-------------------------#
 function tunneling_port_forward() { 
 echo -e "${BBlue}Starting the port forward for prometheus and grafana...${NC}"
-gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-grafana 3030:80'
+gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80'
 gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-operated 9090:9090'
 
 echo -e "${BBlue}Starting kind routing${NC}"
