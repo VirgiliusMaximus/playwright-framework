@@ -188,6 +188,7 @@ sleep 5
 }
 
 #CORE-------------------------------------------------------------------------------------#
+
 check_kind_online
 check_nodes_ready
 deploying_linux
