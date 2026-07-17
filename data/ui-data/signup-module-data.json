@@ -1,0 +1,12 @@
+{
+    "name" : "FaneGatu",
+    "email" : "fanegatu23@myemail.com",
+    "password" : "Gatu1234",
+    "first_name" : "Fane",
+    "last_name" : "Gatu",
+    "adress" : "1234 Main St",
+    "city" : "Anytown",
+    "state" : "CA",
+    "zip_code" : "12345",
+    "mobile_number" : "123-456-7890"
+}
