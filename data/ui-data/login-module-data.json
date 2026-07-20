@@ -1,5 +1,7 @@
 {
     "wrong_password" : "Adminblabla123",
     "invalid_credentials_text" : "Invalid credentials",
-    "wrong_user" : "Adminblabla"
+    "wrong_user" : "Adminblabla",
+    "wrong_email_automationexercise" : "Adminblabla@gmail.com",
+    "invalid_credentials_automationexercise" : "Your email or password is incorrect!"
 }

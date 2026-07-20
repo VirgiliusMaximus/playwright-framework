@@ -19,6 +19,7 @@ export class NewSignupLoginPageAutomationExercise {
     readonly accountInformation: Locator;
     readonly loginLandingPage: Locator;
     readonly emailLoginInput: Locator;
+    readonly loginErrorText: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -39,6 +40,7 @@ export class NewSignupLoginPageAutomationExercise {
         this.createAccountButton = page.getByRole('button', { name: 'Create Account' });
         this.accountInformation = page.getByText('Enter Account Information')
         this.loginLandingPage = page.getByRole('heading', { name: 'Full-Fledged practice website' })
+        this.loginErrorText = page.getByText('Your email or password is incorrect!')
 
     }
     /**

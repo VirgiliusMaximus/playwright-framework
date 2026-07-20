@@ -6,6 +6,7 @@ import { LeftNavigationPage } from "../pages/LeftNavigationPage.ts";
 import { PimPage } from "../pages/PimPage.ts";
 import { NewSignupLoginPageAutomationExercise } from "../pages/NewSignupLoginPageAutomationExercise.ts";
 import { NewUserLandingPage } from "../pages/NewUserLandingPage.ts";
+import { NewUserPage } from "../pages/NewUserPage.ts";
 
 type PomFixtureType = {
 
@@ -16,6 +17,7 @@ type PomFixtureType = {
     pimPage: PimPage;
     newSignupLoginPage: NewSignupLoginPageAutomationExercise;
     newUserLandingPage: NewUserLandingPage;
+    newUserPage: NewUserPage;
 }
 export const test = baseTest.extend<PomFixtureType>({
 
@@ -59,7 +61,13 @@ export const test = baseTest.extend<PomFixtureType>({
         await use(new NewUserLandingPage(page));
 
     }
+    ,
+    newUserPage: async ({ page }, use) => {
 
-})
+        await use(new NewUserPage(page));
+
+    }
+
+});
 
 
