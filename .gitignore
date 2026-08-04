@@ -8,5 +8,5 @@ allure-results/
 /playwright/.cache/
 /playwright/.auth/
 test-results.xml
-/authentication/.auth/auth.json
-/authentication/.auth/auth2.json
+authentication/.auth/auth.json
+authentication/.auth/auth2.json

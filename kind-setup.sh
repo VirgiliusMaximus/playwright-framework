@@ -38,7 +38,7 @@ echo -e "${RED}Don't forget to set the kubeconfig${NC}"
 fi
 }
 
-#Check if nodes are ready---------------------------------------------------------#
+#Check if all nodes are ready---------------------------------------------------------#
 function check_nodes_ready() { 
 for ((i=1;i<50;i++)) do
    statusReady=$(kubectl get nodes | awk '{print $2 }' | cut -d "%" -f1 -| grep -cU '\bReady\b')
@@ -100,6 +100,7 @@ for ((i=1;i<50;i++)) do
         fi
 done
 }
+
 #Check Playwright installation and dependencies-------------------------#
 function verify_playwright_installation() {    
 POD2=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
@@ -184,11 +185,9 @@ gnome-terminal -- /bin/sh -c 'kubectl port-forward -n monitoring svc/prometheus-
 echo -e "${BBlue}Starting kind routing${NC}"
 gnome-terminal -- /bin/sh -c 'sudo cloud-provider-kind'  # for web routing if u have a site
 sleep 5
-
 }
 
 #CORE-------------------------------------------------------------------------------------#
-
 check_kind_online
 check_nodes_ready
 deploying_linux
