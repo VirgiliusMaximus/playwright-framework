@@ -21,7 +21,7 @@ test("Verify user cannot login with invalid user ", {
     tag: ['@ui', '@regression'],
     annotation: {
         type: 'Link to the TC form Azure or other platform',
-        description: 'https://dev.azure.com/ngro/BATS/_workitems/edit/31053/'
+        description: 'https://dev.azure.com/workitems/edit/31053/'
     }
 }, async ({ gotoUrl, loginPage, commonUtils, }) => {
     test.slow();
