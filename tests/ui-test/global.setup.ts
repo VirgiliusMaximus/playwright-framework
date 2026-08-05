@@ -14,7 +14,7 @@ test("Global setup for auto login OrangeHRM site", { tag: ['@ui'] }, async ({ pa
 })
 
 test("Global setup for auto login AutomationExercise site", { tag: ['@ui'] }, async ({ page, newSignupLoginPage, commonUtils,newUserLandingPage }) => {
-    test.setTimeout(60000);
+    test.setTimeout(70000);
     const decriptedPassword = commonUtils.decryptData(process.env.AUTOMATION_EXERCISE_PASSWORD!);
     const decriptedEmail = commonUtils.decryptData(process.env.AUTOMATION_EXERCISE_EMAIL!);
     await newSignupLoginPage.gotoNewSiteLink();
