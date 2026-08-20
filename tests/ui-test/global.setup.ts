@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { Dialog, expect } from "@playwright/test";
 import { test } from "../../fixtures/common-fixture";
 import dotenv from "dotenv";
 
@@ -18,6 +18,7 @@ test("Global setup for auto login AutomationExercise site", { tag: ['@ui'] }, as
     const decriptedPassword = commonUtils.decryptData(process.env.AUTOMATION_EXERCISE_PASSWORD!);
     const decriptedEmail = commonUtils.decryptData(process.env.AUTOMATION_EXERCISE_EMAIL!);
     await newSignupLoginPage.gotoNewSiteLink();
+    page.on('dialog', (dialog: Dialog) => dialog.accept());
     await newSignupLoginPage.consentCheckbox.click();
     await newSignupLoginPage.newLoginSite(decriptedEmail, decriptedPassword);
     await expect(newUserLandingPage.landingPageAutomationExercise).toHaveText('Logged in as FaneGatu');
