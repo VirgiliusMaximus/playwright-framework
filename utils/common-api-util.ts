@@ -12,6 +12,7 @@ export default class CommonApiUtils {
         this.request = request;          
     }
     /**
+     * Create token for Restful Booker API
      */
     public async createToken(){
         const commonUtilObj = new CommonUtils();
