@@ -9,7 +9,7 @@
 #                  - copy playwright project to the container
 #                  - execute Playwright tests
 #                  - copy results to Jenkins workspace
-#                  - install prometheus and grafana for monitoring
+#                  - install/check prometheus and grafana for monitoring
 #                  
 #                   
 # OWNER:           Virgil Buse
