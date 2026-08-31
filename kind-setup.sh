@@ -4,7 +4,7 @@
 #
 # MODULE:          Setup a kind cluster for running Playwright tests and monitoring with Prometheus and Grafana.
 #
-# DESCRIPTION:     - get custom ubuntu image from dockerhub
+# DESCRIPTION:     - get created ubuntu image from dockerhub
 #                  - install node and npm
 #                  - copy playwright project to the container
 #                  - execute Playwright tests
