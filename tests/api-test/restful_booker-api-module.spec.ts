@@ -3,18 +3,6 @@ import apiPathData from '../../data/api-data/api-path-data.json';
 import restfulBookerApiData from '../../data/api-data/restful-booker-api-data.json';
 
 
-// test('Retful Booker API Module', async ({request}) => {
-//    const bookingIDS = await request.get('booking');
-//     console.log(await bookingIDS.json());
-
-// });
-
-// test('Retful Booker API Module - get Booking IDs', async ({request}) => {
-    
-//     const booking1 = await request.get('booking/2');
-//      console.log(await booking1.json());
-// });
-
 test('Restful Booker API - verify if user is able to fetch booking IDs', { 
     tag: ['@API','@UAT'],
     annotation: [
