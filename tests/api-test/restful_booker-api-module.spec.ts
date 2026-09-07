@@ -36,7 +36,7 @@ test('Restful Booker API - verify if user is able to fetch booking IDs', {
 
 });
 
-test('Restful Booker API(FAIL TC)- verify if user is able to fetch booking IDs', { 
+test('Restful Booker API(INTENTIONAL FAIL TC)- verify if user is able to fetch booking IDs', { 
     tag: ['@API','@UAT'],
     annotation: [
         {
