@@ -73,15 +73,10 @@ done
 #Copy resources into the container-------------------------#
 function copy_resources() { 
 POD=$(kubectl get pod -l app=playwright-run -o jsonpath="{.items[0].metadata.name}")
-	kubectl exec -i $POD -- ls /POC-Jenkins-Kubernetes/ | grep "playwright.config.ts" 2>/dev/null 1>/dev/null
-        if [[ $? != "0" ]]; then
-        echo -e "${PURPLE}Ups! Files not found. Copying files into the container...${NC}"
+        echo -e "${BBlue}Copying files into the container...${NC}"
 	kubectl cp . default/$POD:/POC-Jenkins-Kubernetes/
 	kubectl exec -i $POD -- chmod -R 777 /POC-Jenkins-Kubernetes/
         kubectl exec -i $POD -- ls /POC-Jenkins-Kubernetes/
-        else
-        echo -e "${Green}Files already there.${NC}"
-        fi
 }
 
 #Check node/npm version-------------------------#
