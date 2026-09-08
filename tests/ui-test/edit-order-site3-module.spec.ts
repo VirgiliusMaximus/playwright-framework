@@ -3,7 +3,7 @@ import loginData from "../../data/ui-data/login-module-data.json";
 import CommonUtils from "../../utils/common-util";
 import { NewUserPage } from "../../pages/NewUserPage";
 
-test.use({ storageState: "./authentication/.auth/auth2.json" });
+test.use({ storageState: "./authentication/.auth/auth3.json" });
 
 test("Edit last order", { tag: ['@ui', '@smoke'] }, async ({ page,newLoginPage,newLandingPage}: any) => {
    await newLoginPage.gotoSiteLinkTwo();
