@@ -13,7 +13,7 @@ test("Global setup for auto login OrangeHRM site", { tag: ['@ui'] }, async ({ pa
     await page.context().storageState({ path: "./authentication/.auth/auth.json" });
 })
 
-test("Global setup for auto login AutomationExercise site", { tag: ['@ui'] }, async ({ page, newSignupLoginPage, commonUtils,newUserLandingPage }) => {
+test("Global setup for auto login AutomationExercise site", { tag: ['@ui'] }, async ({ page, newSignupLoginPage, commonUtils, newUserLandingPage }) => {
     test.setTimeout(70000);
     const decriptedPassword = commonUtils.decryptData(process.env.AUTOMATION_EXERCISE_PASSWORD!);
     const decriptedEmail = commonUtils.decryptData(process.env.AUTOMATION_EXERCISE_EMAIL!);
@@ -23,5 +23,16 @@ test("Global setup for auto login AutomationExercise site", { tag: ['@ui'] }, as
     await newSignupLoginPage.newLoginSite(decriptedEmail, decriptedPassword);
     await expect(newUserLandingPage.landingPageAutomationExercise).toHaveText('Logged in as FaneGatu');
     await page.context().storageState({ path: "./authentication/.auth/auth2.json" });
+
+})
+
+test("Global setup for auto login practicesoftwaretesting site", { tag: ['@ui'] }, async ({ page, newLandingPage, newLoginPage, commonUtils, }) => {
+    test.setTimeout(70000);
+    const decriptedPassword = commonUtils.decryptData(process.env.PRODUCTION_PASSWORD!);
+    const decriptedEmail = commonUtils.decryptData(process.env.PRODUCTION_EMAIL!);
+    await newLoginPage.gotoSiteLinkTwo();
+    await newLoginPage.loginSiteTwo(decriptedEmail, decriptedPassword);
+    await expect(newLandingPage.landingPagePracticesoftwaretesting).toHaveText('Sales over the years');
+    await page.context().storageState({ path: "./authentication/.auth/auth3.json" });
 
 })
