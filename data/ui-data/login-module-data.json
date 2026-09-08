@@ -1,7 +1,12 @@
 {
-    "wrong_password" : "Adminblabla123",
-    "invalid_credentials_text" : "Invalid credentials",
-    "wrong_user" : "Adminblabla",
-    "wrong_email_automationexercise" : "Adminblabla@gmail.com",
-    "invalid_credentials_automationexercise" : "Your email or password is incorrect!"
+    "wrong_password": "Adminblabla123",
+    "invalid_credentials_text": "Invalid credentials",
+    "wrong_user": "Adminblabla",
+    "wrong_email_automationexercise": "Adminblabla@gmail.com",
+    "invalid_credentials_automationexercise": "Your email or password is incorrect!",
+    "site3login": {
+        "wrong_password_site3": "Adminblabla",
+        "wrong_email_site3": "Adminblabla@gmail.com",
+        "invalid_credentials_site3_text": "Invalid email or password"
+    }
 }
