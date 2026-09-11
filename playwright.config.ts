@@ -91,7 +91,8 @@ export default defineConfig({
         extraHTTPHeaders: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': "Basic YWRtaW46cGFzc3dvcmQxMjM="
+          'Authorization': "Basic YWRtaW46cGFzc3dvcmQxMjM=",
+          'x-api-key': "904dd2c9-8479-4aee-b278-1601cb69f802"
         },
       }
 
