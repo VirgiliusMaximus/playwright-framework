@@ -26,7 +26,7 @@ test("Global setup for auto login AutomationExercise site", { tag: ['@ui'] }, as
 
 })
 
-test("Global setup for auto login practicesoftwaretesting site", { tag: ['@ui'] }, async ({ page, newLandingPage, newLoginPage, commonUtils, }) => {
+test("Global setup for auto login Practicesoftwaretesting site", { tag: ['@ui'] }, async ({ page, newLandingPage, newLoginPage, commonUtils, }) => {
     test.setTimeout(70000);
     const decriptedPassword = commonUtils.decryptData(process.env.PRODUCTION_PASSWORD!);
     const decriptedEmail = commonUtils.decryptData(process.env.PRODUCTION_EMAIL!);
