@@ -1,4 +1,19 @@
 {
     "apiDevBaseUrl": "https://api.restful-api.dev/",
-    "contentTypeRsp": "application/json;charset=UTF-8"
+    "contentTypeRsp": "application/json;charset=UTF-8",
+    "login_data": {
+        "email": "cornelius@test.com",
+        "password": "Password12345!",
+        "name": "Cornelius"
+    },
+    "login_rsp": {
+        "token": {},
+        "tokenType": "Bearer",
+        "expiresIn": 3600,
+        "user": {
+            "id": "8aa7c866-69dc-49b9-87cf-eef49d133b82",
+            "email": "cornelius@test.com",
+            "name": "Cornelius"
+        }
+    }
 }
