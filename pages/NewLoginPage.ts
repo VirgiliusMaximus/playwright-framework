@@ -5,7 +5,7 @@ export class NewLoginPage {
     readonly userNameInput: Locator;
     readonly passwordInput: Locator;
     readonly loginButton: Locator;
-    readonly invalidCredentialsErorr : Locator;
+    readonly invalidCredentialsErorr: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -13,7 +13,7 @@ export class NewLoginPage {
         this.passwordInput = page.locator('[data-test="password"]');
         this.loginButton = page.locator('[data-test="login-submit"]');
         this.invalidCredentialsErorr = page.getByText('Invalid email or password');
-    
+
     }
     /**
      * URL to site

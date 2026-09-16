@@ -19,19 +19,19 @@ export class PimPage {
         this.saveButton = page.getByRole('button', { name: 'Save' });
         this.newEmployeeName = page.locator(".orangehrm-edit-employee-name");
     }
-/**
- * Add new employee
- * @param firstName 
- * @param middleName 
- * @param lastname 
- */
-     async addEmployee(firstName: string,middleName: string,lastname: string) {
+    /**
+     * Add new employee
+     * @param firstName 
+     * @param middleName 
+     * @param lastname 
+     */
+    async addEmployee(firstName: string, middleName: string, lastname: string) {
         await this.addPimButton.click();
         await this.firstNameText.fill(firstName);
         await this.middleNameText.fill(middleName);
         await this.lastnameText.fill(lastname);
         await this.saveButton.click();
-         
-     }
+
+    }
 
 }

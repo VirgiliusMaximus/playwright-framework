@@ -77,7 +77,7 @@ export const test = baseTest.extend<PomFixtureType>({
 
     }
     ,
-     newLandingPage: async ({ page }, use) => {
+    newLandingPage: async ({ page }, use) => {
 
         await use(new NewUserPage(page));
 

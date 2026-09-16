@@ -34,15 +34,21 @@ test('API testing POST Login data', {
         }
     ]
 
-}, async ({ request }) => {
+}, async ({ request, commonUtils }) => {
+    const password = commonUtils.decryptData(process.env.API_PROD_PASSWORD!);
+    const email = commonUtils.decryptData(process.env.API_PROD_EMAIL!);
     const responseIds = await request.post(restfulDevApiData.apiDevBaseUrl + apiDevPathData.login_path, {
-        data: restfulDevApiData.login_data
+        data: {
+            email: email,
+            password: password,
+
+        }
     });
     const jsonFormatRsp: any = await responseIds.json();
     expect(responseIds.status()).toBe(200);
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
     expect(responseIds.headers()).toHaveProperty('content-type');
-    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.login_rsp );
+    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.login_rsp);
 
 });
