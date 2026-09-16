@@ -8,15 +8,15 @@ export default class CommonApiUtils {
     /**
      * Initialize encription
      */
-    constructor(request : APIRequestContext) {
-        this.request = request;          
+    constructor(request: APIRequestContext) {
+        this.request = request;
     }
     /**
      * Create token for Restful Booker API
      */
-    public async createToken(){
+    public async createToken() {
         const commonUtilObj = new CommonUtils();
-        const tokenReq = await this.request.post(apiPathData.auth_path,{
+        const tokenReq = await this.request.post(apiPathData.auth_path, {
             data: {
                 username: commonUtilObj.decryptData(process.env.API_USER_NAME!),
                 password: commonUtilObj.decryptData(process.env.API_PASSWORD!)

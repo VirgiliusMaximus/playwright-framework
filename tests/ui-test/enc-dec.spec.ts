@@ -5,9 +5,9 @@ import CommonUtils from "../../utils/common-util";
 test.skip("Encript Data", { tag: ['@util'] }, async ({ gotoUrl, loginPage, commonUtils, }) => {
 
     const commonUtilsObj = new CommonUtils();
-    const encryptedData = commonUtilsObj.encryptData("welcome01");
-    console.log(encryptedData);
+    const encryptedData = commonUtilsObj.encryptData("Password12345!");
+    console.log("Encrypted data: " + encryptedData);
 
-   // const decryptedData = commonUtilsObj.decryptData(encryptedData);
-   // console.log(decryptedData);
+    // const decryptedData = commonUtilsObj.decryptData(encryptedData);
+    // console.log("Decrypted data: " + decryptedData);
 })

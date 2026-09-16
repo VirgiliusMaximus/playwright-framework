@@ -68,7 +68,7 @@ test('Restful Booker API POST - verify if user is able to POST', {
     expect(creteBookingReq.statusText()).toBe('OK');
     expect(creteBookingReq).toBeTruthy();
     bookingIdPost = jsonCreateBookingRsp.bookingid;
-    console.log(`Booking ID created is : ${bookingIdPost}`);
+    //console.log(`Booking ID created is : ${bookingIdPost}`);
     expect(creteBookingReq.headers()).toHaveProperty('content-type');
     expect(creteBookingReq.headers()['content-type']).toBe(restfulBookerApiData.contentType);
     expect(jsonCreateBookingRsp).toHaveProperty('bookingid');
@@ -97,7 +97,7 @@ test('Restful Booker API PUT- verify if user is able to PUT', {
         // }
     });
     //console.log(`Put1 request is : ${updateBookingReq}`);
-    
+
     const jsonUpdateBookingRsp: any = await updateBookingReq.json();
     expect(updateBookingReq.status()).toBe(200);
     expect(updateBookingReq.statusText()).toBe('OK');

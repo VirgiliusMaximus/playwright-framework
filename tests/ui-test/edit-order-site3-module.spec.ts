@@ -5,7 +5,7 @@ import { NewUserPage } from "../../pages/NewUserPage";
 
 test.use({ storageState: "./authentication/.auth/auth3.json" });
 
-test("Edit last order", { tag: ['@ui', '@smoke'] }, async ({ page,newLoginPage,newLandingPage}: any) => {
+test("Edit last order", { tag: ['@ui', '@smoke'] }, async ({ page, newLoginPage, newLandingPage }: any) => {
    await newLoginPage.gotoSiteLinkTwo();
    await page.locator('[data-test="nav-menu"]').click();
    await page.locator('[data-test="nav-admin-categories"]').click();

@@ -4,7 +4,7 @@ export class LeftNavigationPage {
     readonly page: Page;
     readonly pimLink: Locator;
     readonly orangeHRMLogo: Locator;
-    readonly leftSideNavi: Locator;    
+    readonly leftSideNavi: Locator;
 
 
     constructor(page: Page) {
@@ -13,9 +13,9 @@ export class LeftNavigationPage {
         this.orangeHRMLogo = page.getByRole('link', { name: 'client brand banner' })
         this.leftSideNavi = page.locator('div.oxd-sidepanel-body')
     }
-/**
- * Open PIM module
- */
+    /**
+     * Open PIM module
+     */
     async openPimModule() {
         await this.pimLink.click();
     }

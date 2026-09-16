@@ -4,7 +4,7 @@ import loginData from "../../data/ui-data/signup-module-data.json";
 import CommonUtils from "../../utils/common-util";
 
 
-test.skip("Sign up new user.Skipped, need only once ", { tag: ['@ui', '@smoke'] }, async ({ page, newSignupLoginPage, commonUtils,}: any) => {
+test.skip("Sign up new user.Skipped, need only once ", { tag: ['@ui', '@smoke'] }, async ({ page, newSignupLoginPage, commonUtils, }: any) => {
     const decriptedPassword = commonUtils.decryptData(process.env.AUTOMATION_EXERCISE_PASSWORD!);
     const decriptedEmail = commonUtils.decryptData(process.env.AUTOMATION_EXERCISE_EMAIL!);
     await newSignupLoginPage.gotoNewSiteLink();
