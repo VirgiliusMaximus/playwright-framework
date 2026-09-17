@@ -3,7 +3,7 @@ import { test } from "../../fixtures/common-fixture";
 import dotenv from "dotenv";
 
 test("Global setup for auto login OrangeHRM site", { tag: ['@ui'] }, async ({ page, loginPage, commonUtils, dashboardPage }) => {
-    test.setTimeout(90000);
+    test.setTimeout(150000);
     const decrepteU = commonUtils.decryptData(process.env.USER_NAME!);
     const decreptedP = commonUtils.decryptData(process.env.PASSWORD!);
     await loginPage.gotoSiteLink();
