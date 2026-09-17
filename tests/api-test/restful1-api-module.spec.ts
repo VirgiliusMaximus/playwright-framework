@@ -168,7 +168,7 @@ test('Restful Booker API DELETE - verify if user is able to DELETE with token', 
     ]
 
 }, async ({ request, commonApiUtils }) => {
-    const randomBookingId = Math.floor(Math.random() * 50) + 1; // Generate a random booking ID between 1 and 50
+    const randomBookingId = Math.floor(Math.random() * 10) + 1; // Generate a random booking ID between 1 and 115
     const deleteBookingReq = await request.delete(`${apiPathData.booking_path}/${randomBookingId}`, {
         headers: {
             Cookie: `token=${await commonApiUtils.createToken()}`
