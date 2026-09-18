@@ -14,7 +14,7 @@
             "name": "Cornelius"
         }
     },
-    "post_response": {
+    "post_request": {
         "id": {},
         "name": "Laptop Dell XPS 15",
         "data": {
@@ -23,6 +23,18 @@
             "CPU model": "Intel Core i9",
             "Hard disk size": "2 TB"
         }
+    },
+    "put_request": {
+        "name": "Laptop Dell Latitude 5000",
+        "data": {
+            "year": 2025,
+            "price": 2000,
+            "CPU model": "Intel Core i10",
+            "Hard disk size": "0.5 TB",
+            "put-new": "put-new-value"
+        }
+    },
+    "patch_request": {
+        "name": "Laptop Dell Latitude 9000"
     }
-    
 }

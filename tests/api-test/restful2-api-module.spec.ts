@@ -29,7 +29,7 @@ test('API testing POST Login data', {
     tag: ['@API', '@UAT'],
     annotation: [
         {
-            type: 'Test Case link 7',
+            type: 'Test Case link 8',
             description: 'http://qmetry.com/testrail/link-to-test-case/8'
         }
     ]
@@ -56,12 +56,12 @@ test('API testing POST Login data', {
 
 });
 
-test('API testing POST new collection', {
+test('API testing POST/DELETE new collection', {
     tag: ['@API', '@UAT'],
     annotation: [
         {
-            type: 'Test Case link 7',
-            description: 'http://qmetry.com/testrail/link-to-test-case/8'
+            type: 'Test Case link 9',
+            description: 'http://qmetry.com/testrail/link-to-test-case/9'
         }
     ]
 
@@ -86,7 +86,8 @@ test('API testing POST new collection', {
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
     expect(responseIds.headers()).toHaveProperty('content-type');
-    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.post_response);
+    expect(jsonFormatRsp).toHaveProperty('createdAt');
+    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.post_request);
     const deleteIds = await request.delete(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path + '/' + idrsp, {
 
     });
@@ -99,5 +100,63 @@ test('API testing POST new collection', {
     expect(deleteResponse).toHaveProperty('message');
     expect(deleteResponse.message).toBe('Object with id = ' + idrsp + ' has been deleted.');
 
+
+});
+
+test('API testing POST/PUT/PATCH new collection', {
+    tag: ['@API', '@UAT'],
+    annotation: [
+        {
+            type: 'Test Case link 10',
+            description: 'http://qmetry.com/testrail/link-to-test-case/10'
+        }
+    ]
+
+}, async ({ request, commonUtils }) => {
+
+    const responseIds = await request.post(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path, {
+        data: {
+            "name": "Laptop Dell Latitude 7440",
+            "data": {
+                "year": 2025,
+                "price": 3000,
+                "CPU model": "Intel Core i7",
+                "Hard disk size": "5 TB"
+            }
+        }
+
+    });
+    const jsonFormatRsp: any = await responseIds.json();
+    const idrsp = jsonFormatRsp.id;
+    //console.log('The id of the new collection is: ' + idrsp);
+    expect(responseIds.status()).toBe(200);
+    expect(responseIds.statusText()).toBe('OK');
+    expect(responseIds).toBeTruthy();
+    expect(responseIds.headers()).toHaveProperty('content-type');
+    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.post_request);
+    const putIds = await request.put(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path + '/' + idrsp, {
+        data: restfulDevApiData.put_request
+    });
+    expect(putIds.status()).toBe(200);
+    expect(putIds.statusText()).toBe('OK');
+    expect(putIds).toBeTruthy();
+    expect(putIds.headers()).toHaveProperty('content-type');
+    expect(putIds.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
+    const putResponse: any = await putIds.json();
+    expect(putResponse).toHaveProperty('updatedAt');
+    expect(putResponse).toHaveProperty('put-new');
+    expect(putResponse).toMatchObject(restfulDevApiData.put_request);
+    const patchIds = await request.patch(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path + '/' + idrsp, {
+        data: restfulDevApiData.patch_request
+    });
+    expect(patchIds.status()).toBe(200);
+    expect(patchIds.statusText()).toBe('OK');
+    expect(patchIds).toBeTruthy();
+    expect(patchIds.headers()).toHaveProperty('content-type');
+    expect(patchIds.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
+    const patchResponse: any = await patchIds.json();
+    expect(patchResponse).toHaveProperty('updatedAt');
+    expect(patchResponse).toHaveProperty('name');
+    expect(patchResponse).toMatchObject(restfulDevApiData.patch_request);
 
 });
