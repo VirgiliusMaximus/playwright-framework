@@ -71,12 +71,21 @@ test('API testing POST/DELETE new collection', {
 }, async ({ request, commonUtils }) => {
 
     const responseIds = await request.post(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path, {
-        data: restfulDevApiData.post_request
+        data: {
+            "name": "Laptop Dell XPS 15",
+            "data": {
+                "year": 2026,
+                "price": 2500,
+                "CPU model": "Intel Core i9",
+                "Hard disk size": "2 TB"
+            }
+        }
 
     });
     const jsonFormatRsp: any = await responseIds.json();
     const idrsp = jsonFormatRsp.id;
-    //console.log('The id of the new collection is: ' + idrsp);
+    console.log('The id of the new collection is: ' + idrsp);
+    console.log('Jason Response: ' + jsonFormatRsp);
     expect(responseIds.status()).toBe(200);
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
@@ -129,7 +138,7 @@ test('API testing POST/PUT/PATCH new collection', {
     expect(putIds.headers()).toHaveProperty('content-type');
     expect(putIds.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
     const putResponse: any = await putIds.json();
-    expect(putResponse).toHaveProperty('put-new');
+    expect(putResponse.data).toHaveProperty('put-new');
     expect(putResponse).toMatchObject(restfulDevApiData.put_request);
     const patchIds = await request.patch(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path + '/' + idrsp, {
         data: restfulDevApiData.patch_request
@@ -142,5 +151,16 @@ test('API testing POST/PUT/PATCH new collection', {
     const patchResponse: any = await patchIds.json();
     expect(patchResponse).toHaveProperty('name');
     expect(patchResponse).toMatchObject(restfulDevApiData.patch_request);
+    const deleteIds = await request.delete(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path + '/' + idrsp, {
+
+    });
+    expect(deleteIds.status()).toBe(200);
+    expect(deleteIds.statusText()).toBe('OK');
+    expect(deleteIds).toBeTruthy();
+    expect(deleteIds.headers()).toHaveProperty('content-type');
+    expect(deleteIds.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
+    const deleteResponse: any = await deleteIds.json();
+    expect(deleteResponse).toHaveProperty('message');
+    expect(deleteResponse.message).toBe('Object with id = ' + idrsp + ' has been deleted.');
 
 });
