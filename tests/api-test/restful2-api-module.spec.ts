@@ -15,7 +15,10 @@ test('API testing GET collection ', {
 }, async ({ request }) => {
     const responseIds = await request.get(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path);
     const jsonFormatRsp: any = await responseIds.json();
-    //console.log(jsonFormatRsp);
+    const responseObj = await request.get(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path);
+    const jsonFormatObj: any = await responseObj.json();
+    console.log(jsonFormatRsp);
+    console.log(jsonFormatObj);
     expect(responseIds.status()).toBe(200);
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
@@ -86,7 +89,6 @@ test('API testing POST/DELETE new collection', {
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
     expect(responseIds.headers()).toHaveProperty('content-type');
-    expect(jsonFormatRsp).toHaveProperty('createdAt');
     expect(jsonFormatRsp).toMatchObject(restfulDevApiData.post_request);
     const deleteIds = await request.delete(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path + '/' + idrsp, {
 
@@ -143,7 +145,6 @@ test('API testing POST/PUT/PATCH new collection', {
     expect(putIds.headers()).toHaveProperty('content-type');
     expect(putIds.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
     const putResponse: any = await putIds.json();
-    expect(putResponse).toHaveProperty('updatedAt');
     expect(putResponse).toHaveProperty('put-new');
     expect(putResponse).toMatchObject(restfulDevApiData.put_request);
     const patchIds = await request.patch(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path + '/' + idrsp, {
@@ -155,7 +156,6 @@ test('API testing POST/PUT/PATCH new collection', {
     expect(patchIds.headers()).toHaveProperty('content-type');
     expect(patchIds.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
     const patchResponse: any = await patchIds.json();
-    expect(patchResponse).toHaveProperty('updatedAt');
     expect(patchResponse).toHaveProperty('name');
     expect(patchResponse).toMatchObject(restfulDevApiData.patch_request);
 

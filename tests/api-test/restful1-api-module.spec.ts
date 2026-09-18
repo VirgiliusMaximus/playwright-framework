@@ -17,7 +17,7 @@ test('Restful Booker API - verify if user is able to fetch booking IDs', {
 }, async ({ request }) => {
     const responseIds = await request.get(apiPathData.booking_path);
     const jsonFormatRsp: any = await responseIds.json();
-    //console.log(jsonFormatRsp);
+    console.log(jsonFormatRsp);
     expect(responseIds.status()).toBe(200);
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
