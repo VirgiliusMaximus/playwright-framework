@@ -71,15 +71,7 @@ test('API testing POST/DELETE new collection', {
 }, async ({ request, commonUtils }) => {
 
     const responseIds = await request.post(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path, {
-        data: {
-            "name": "Laptop Dell XPS 15",
-            "data": {
-                "year": 2026,
-                "price": 2500,
-                "CPU model": "Intel Core i9",
-                "Hard disk size": "2 TB"
-            }
-        }
+        data: restfulDevApiData.post_request
 
     });
     const jsonFormatRsp: any = await responseIds.json();
@@ -117,15 +109,7 @@ test('API testing POST/PUT/PATCH new collection', {
 }, async ({ request, commonUtils }) => {
 
     const responseIds = await request.post(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path, {
-        data: {
-            "name": "Laptop Dell Latitude 7440",
-            "data": {
-                "year": 2025,
-                "price": 3000,
-                "CPU model": "Intel Core i7",
-                "Hard disk size": "5 TB"
-            }
-        }
+        data: restfulDevApiData.post_request_2
 
     });
     const jsonFormatRsp: any = await responseIds.json();
@@ -135,7 +119,7 @@ test('API testing POST/PUT/PATCH new collection', {
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
     expect(responseIds.headers()).toHaveProperty('content-type');
-    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.post_request);
+    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.post_request_2);
     const putIds = await request.put(restfulDevApiData.apiDevBaseUrl + apiDevPathData.collections_path + '/' + apiDevPathData.collections_name + '/' + apiDevPathData.objects_path + '/' + idrsp, {
         data: restfulDevApiData.put_request
     });
