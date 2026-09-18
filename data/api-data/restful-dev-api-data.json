@@ -25,14 +25,14 @@
         }
     },
     "post_request_2": {
-            "name": "Laptop Dell Latitude 7440",
-            "data": {
-                "year": 2025,
-                "price": 3000,
-                "CPU model": "Intel Core i7",
-                "Hard disk size": "5 TB"
-            }
-        },
+        "name": "Laptop Dell Latitude 7440",
+        "data": {
+            "year": 2025,
+            "price": 3000,
+            "CPU model": "Intel Core i7",
+            "Hard disk size": "5 TB"
+        }
+    },
     "put_request": {
         "name": "Laptop Dell Latitude 5000",
         "data": {
