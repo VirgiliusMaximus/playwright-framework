@@ -92,7 +92,7 @@ export default defineConfig({
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': "Basic YWRtaW46cGFzc3dvcmQxMjM=",
-          'x-api-key': "904dd2c9-8479-4aee-b278-1601cb69f802"
+          'x-api-key': "57ada6b9-f9ea-48ae-950a-e4371cef9162"
         },
       }
 
