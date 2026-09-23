@@ -85,7 +85,6 @@ test('API testing POST/DELETE new collection', {
     const jsonFormatRsp: any = await responseIds.json();
     const idrsp = jsonFormatRsp.id;
     console.log('The id of the new collection is: ' + idrsp);
-    console.log('Jason Response: ' + jsonFormatRsp);
     expect(responseIds.status()).toBe(200);
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
@@ -163,6 +162,7 @@ test('API testing POST/PUT/PATCH new collection', {
     expect(deleteResponse).toHaveProperty('message');
     expect(deleteResponse.message).toBe('Object with id = ' + idrsp + ' has been deleted.');
 
+
 });
 
 test('API testing GET public objects ', {
@@ -177,7 +177,6 @@ test('API testing GET public objects ', {
 }, async ({ request }) => {
     const responseIds = await request.get(restfulDevApiData.apiDevBaseUrl + apiDevPathData.objects_path);
     const jsonFormatRsp: any = await responseIds.json();
-    console.log(jsonFormatRsp);
     expect(responseIds.status()).toBe(200);
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
@@ -186,7 +185,7 @@ test('API testing GET public objects ', {
 
 });
 
-test('API testing POST public objects ', {
+test('API testing POST/PUT/PATCH public objects ', {
     tag: ['@API', '@UAT'],
     annotation: [
         {
@@ -200,6 +199,7 @@ test('API testing POST public objects ', {
         data: JSON.stringify(restfulDevApiData.post_request_2),
     });
     const jsonFormatRsp: any = await responseIds.json();
+    const idrsp2 = jsonFormatRsp.id;
     expect(responseIds.status()).toBe(200);
     expect(responseIds.statusText()).toBe('OK');
     expect(responseIds).toBeTruthy();
@@ -208,52 +208,35 @@ test('API testing POST public objects ', {
     expect(jsonFormatRsp).toHaveProperty('id');
     expect(jsonFormatRsp).toMatchObject(restfulDevApiData.post_request_2);
 
-});
-
-test('API testing PUT public objects ', {
-    tag: ['@API', '@UAT'],
-    annotation: [
-        {
-            type: 'Test Case link 13',
-            description: 'http://qmetry.com/testrail/link-to-test-case/13'
-        }
-    ]
-
-}, async ({ request }) => {
-    const responseIds = await request.put(restfulDevApiData.apiDevBaseUrl + apiDevPathData.objects_path + '/'+ 13, {
+    const responseIds2 = await request.put(restfulDevApiData.apiDevBaseUrl + apiDevPathData.objects_path + '/' + idrsp2, {
         data: JSON.stringify(restfulDevApiData.put_request),
     });
-    const jsonFormatRsp: any = await responseIds.json();
-    expect(responseIds.status()).toBe(200);
-    expect(responseIds.statusText()).toBe('OK');
-    expect(responseIds).toBeTruthy();
-    expect(responseIds.headers()).toHaveProperty('content-type');
-    expect(responseIds.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
-    expect(jsonFormatRsp).toHaveProperty('id');
-    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.put_request);
+    const jsonFormatRsp2: any = await responseIds2.json();
+    expect(responseIds2.status()).toBe(200);
+    expect(responseIds2.statusText()).toBe('OK');
+    expect(responseIds2).toBeTruthy();
+    expect(responseIds2.headers()).toHaveProperty('content-type');
+    expect(responseIds2.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
+    expect(jsonFormatRsp2).toHaveProperty('id');
+    expect(jsonFormatRsp2).toHaveProperty('data');
+    expect(jsonFormatRsp2.data).toHaveProperty('put-new');
+    expect(jsonFormatRsp2).toMatchObject(restfulDevApiData.put_request);
 
-});
-
-test('API testing PATCH public objects ', {
-    tag: ['@API', '@UAT'],
-    annotation: [
-        {
-            type: 'Test Case link 14',
-            description: 'http://qmetry.com/testrail/link-to-test-case/14'
-        }
-    ]
-
-}, async ({ request }) => {
-    const responseIds = await request.patch(restfulDevApiData.apiDevBaseUrl + apiDevPathData.objects_path + '/'+ 7, {
+    const responseIds3 = await request.patch(restfulDevApiData.apiDevBaseUrl + apiDevPathData.objects_path + '/' + idrsp2, {
         data: JSON.stringify(restfulDevApiData.patch_request),
     });
-    const jsonFormatRsp: any = await responseIds.json();
-    expect(responseIds.status()).toBe(200);
-    expect(responseIds.statusText()).toBe('OK');
-    expect(responseIds).toBeTruthy();
-    expect(responseIds.headers()).toHaveProperty('content-type');
-    expect(responseIds.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
-    expect(jsonFormatRsp).toHaveProperty('id');
-    expect(jsonFormatRsp).toMatchObject(restfulDevApiData.patch_request);
+    const jsonFormatRsp3: any = await responseIds3.json();
+    expect(responseIds3.status()).toBe(200);
+    expect(responseIds3.statusText()).toBe('OK');
+    expect(responseIds3).toBeTruthy();
+    expect(responseIds3.headers()).toHaveProperty('content-type');
+    expect(responseIds3.headers()['content-type']).toBe(restfulDevApiData.contentTypeRsp);
+    expect(jsonFormatRsp3).toHaveProperty('name');
+    expect(jsonFormatRsp3).toMatchObject(restfulDevApiData.patch_request);
+
+    const allData = await request.get(restfulDevApiData.apiDevBaseUrl + apiDevPathData.objects_path + '/' + idrsp2);
+    const jsonFormatData: any = await allData.json();
+    console.log('After Put/Patch Data: :' + JSON.stringify(jsonFormatData));
 
 });
+
