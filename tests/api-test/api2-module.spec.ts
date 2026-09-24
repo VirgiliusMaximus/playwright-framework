@@ -3,7 +3,7 @@ import apiDevPathData from '../../data/api-data/api-dev-path-data.json';
 import restfulDevApiData from '../../data/api-data/restful-dev-api-data.json';
 
 
-test('API testing GET collection ', {
+test('API testing GET private collection ', {
     tag: ['@API', '@UAT'],
     annotation: [
         {
@@ -28,7 +28,7 @@ test('API testing GET collection ', {
 });
 
 
-test('API testing POST Login data', {
+test('API testing POST Login with privatedata', {
     tag: ['@API', '@UAT'],
     annotation: [
         {
@@ -59,7 +59,7 @@ test('API testing POST Login data', {
 
 });
 
-test('API testing POST/DELETE new collection', {
+test('API testing POST/DELETE new private collection', {
     tag: ['@API', '@UAT'],
     annotation: [
         {
@@ -105,7 +105,7 @@ test('API testing POST/DELETE new collection', {
 
 });
 
-test('API testing POST/PUT/PATCH new collection', {
+test('API testing POST/PUT/PATCH new private collection', {
     tag: ['@API', '@UAT'],
     annotation: [
         {
