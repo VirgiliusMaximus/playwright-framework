@@ -236,7 +236,7 @@ test('API testing POST/PUT/PATCH public objects ', {
 
     const allData = await request.get(restfulDevApiData.apiDevBaseUrl + apiDevPathData.objects_path + '/' + idrsp2);
     const jsonFormatData: any = await allData.json();
-    console.log('After Put/Patch Data: :' + JSON.stringify(jsonFormatData));
+    console.log('After Put and Patch Data: :' + JSON.stringify(jsonFormatData));
 
 });
 
