@@ -3,7 +3,7 @@ import employeeNmaes from "../../data/ui-data/pim-module-data.json";
 
 
 
-test("Add new employee under PIM module ", { tag: ['@ui'] }, async ({ gotoUrl, leftNavigationPage, pimPage }) => {
+test("Add new employee under PIM module site 1", { tag: ['@ui'] }, async ({ gotoUrl, leftNavigationPage, pimPage }) => {
     test.setTimeout(200000);
     await test.step('Open PIM module', async () => {
         await leftNavigationPage.openPimModule();
