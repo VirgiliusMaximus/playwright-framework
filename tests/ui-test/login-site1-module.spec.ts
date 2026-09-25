@@ -8,7 +8,7 @@ test.use({
     }
 })
 
-test("Verify user cannot login with invalid pass ", { tag: ['@ui', '@smoke'] }, async ({ gotoUrl, loginPage, commonUtils, }) => {
+test("Verify user cannot login with invalid pass site 1 ", { tag: ['@ui', '@smoke'] }, async ({ gotoUrl, loginPage, commonUtils, }) => {
     test.slow();
     const username = commonUtils.decryptData(process.env.USER_NAME!);
     await loginPage.loginSite(username, loginData.wrong_password);
@@ -17,7 +17,7 @@ test("Verify user cannot login with invalid pass ", { tag: ['@ui', '@smoke'] }, 
 
 })
 
-test("Verify user cannot login with invalid user ", {
+test("Verify user cannot login with invalid user site 1", {
     tag: ['@ui', '@regression'],
     annotation: {
         type: 'Link to the TC form Azure or other platform',
@@ -31,7 +31,7 @@ test("Verify user cannot login with invalid user ", {
     await expect(loginPage.userNameInput).toBeVisible();
 
 })
-test("Verify user cannot login with both invalid user and pass ", { tag: ['@ui'] }, async ({ gotoUrl, loginPage, commonUtils, }) => {
+test("Verify user cannot login with both invalid user and pass site 1", { tag: ['@ui'] }, async ({ gotoUrl, loginPage, commonUtils, }) => {
     test.slow();
     await loginPage.loginSite(loginData.wrong_user, loginData.wrong_password);
     await expect(loginPage.invalidCredentialsErorr).toHaveText(loginData.invalid_credentials_text, { timeout: 90000 });
