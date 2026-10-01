@@ -44,6 +44,7 @@ export default defineConfig({
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
     headless: true,
+    ignoreHTTPSErrors: true
   },
 
   /* Configure projects for major browsers */
