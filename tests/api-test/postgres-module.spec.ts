@@ -1,6 +1,11 @@
 import { Client } from 'pg';
 import { test, expect } from '../../fixtures/hooks-fixture';
 
+ test.use({ ignoreHTTPSErrors: true
+
+
+  });
+
 test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUtils }) => {
     const decriptedPass = commonUtils.decryptData(process.env.DB_PASSWORD!);
     const decriptedHost = commonUtils.decryptData(process.env.DB_HOST!);
