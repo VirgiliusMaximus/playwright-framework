@@ -21,7 +21,7 @@ test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUt
         await client.connect();
         // Execute a query
         const result = await client.query('SELECT name FROM users');
-        //console.log('Query result:', result);
+        console.log('Query result:', result);
         if (result.rows.length > 0) {
             console.log('Name:', result.rows[0].name);
             await page.goto('http://192.168.10.74/pgadmin4/login?next=/pgadmin4/browser/&name=' + result.rows[0].name);
