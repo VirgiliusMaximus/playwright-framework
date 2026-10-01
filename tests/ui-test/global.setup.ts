@@ -1,6 +1,6 @@
 import { Dialog, expect } from "@playwright/test";
 import { test } from "../../fixtures/common-fixture";
-import dotenv from "dotenv";
+
 
 test("Global setup for auto login OrangeHRM site", { tag: ['@ui'] }, async ({ page, loginPage, commonUtils, dashboardPage }) => {
     test.setTimeout(150000);
@@ -36,3 +36,5 @@ test("Global setup for auto login Practicesoftwaretesting site", { tag: ['@ui'] 
     await page.context().storageState({ path: "./authentication/.auth/auth3.json" });
 
 })
+
+
