@@ -15,7 +15,7 @@ test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUt
         password: decriptedPass,
     };
     const client = new Client(dbConfig);
-    await page.goto('http://localhost/pgadmin4/login?next=/pgadmin4/browser/');
+    await page.goto('http://192.168.10.74/pgadmin4/login?next=/pgadmin4/browser/');
     try {
         // Connect to the database
         await client.connect();
@@ -24,9 +24,9 @@ test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUt
         console.log('Query result:', result);
         if (result.rows.length > 0) {
             console.log('Name:', result.rows[0].name);
-            await page.goto('http://localhost/pgadmin4/login?next=/pgadmin4/browser/&name=' + result.rows[0].name);
+            await page.goto('http://192.168.10.74/pgadmin4/login?next=/pgadmin4/browser/&name=' + result.rows[0].name);
             // Validate url and response
-            await expect(page).toHaveURL('http://localhost/pgadmin4/login?next=/pgadmin4/browser/&name=' + result.rows[0].name);
+            await expect(page).toHaveURL('http://192.168.10.74/pgadmin4/login?next=/pgadmin4/browser/&name=' + result.rows[0].name);
             const response = await page.locator('body').innerText();
             await expect(response).toContain('200');
             await expect(response).toContain('token');
