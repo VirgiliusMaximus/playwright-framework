@@ -1,10 +1,11 @@
 import { Client } from 'pg';
 import { test, expect } from '../../fixtures/hooks-fixture';
 
- test.use({ ignoreHTTPSErrors: true
+test.use({
+    ignoreHTTPSErrors: true
 
 
-  });
+});
 
 test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUtils }) => {
     const decriptedPass = commonUtils.decryptData(process.env.DB_PASSWORD!);
@@ -19,6 +20,11 @@ test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUt
         user: decriptedUser,
         password: decriptedPass,
     };
+
+    page.on('console', msg => {
+        if (msg.type() === 'error')
+            console.log(`Error text: "${msg.text()}"`);
+    });
     const client = new Client(dbConfig);
     await page.goto('http://192.168.10.74/pgadmin4/login?next=/pgadmin4/browser/');
     try {
@@ -27,6 +33,7 @@ test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUt
         // Execute a query
         const result = await client.query('SELECT name FROM users');
         console.log('Query result:', result);
+        
         if (result.rows.length > 0) {
             console.log('Name:', result.rows[0].name);
             await page.goto('http://192.168.10.74/pgadmin4/login?next=/pgadmin4/browser/&name=' + result.rows[0].name);
