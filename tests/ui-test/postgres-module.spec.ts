@@ -26,7 +26,7 @@ test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUt
             console.log(`Error text: "${msg.text()}"`);
     });
     const client = new Client(dbConfig);
-    await page.goto(process.env.DB_URL!);
+    await page.goto('https://192.168.10.74/pgadmin4');
     try {
         // Connect to the database
         await client.connect();
@@ -36,9 +36,9 @@ test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUt
         
         if (result.rows.length > 0) {
             console.log('Name:', result.rows[0].name);
-            await page.goto(process.env.DB_URL! + '&name=' + result.rows[0].name);
+            await page.goto('https://192.168.10.74/pgadmin4/login?next=/pgadmin4/' + '&name=' + result.rows[0].name);
             // Validate url and response
-            await expect(page).toHaveURL(process.env.DB_URL! + '&name=' + result.rows[0].name);
+            await expect(page).toHaveURL('https://192.168.10.74/pgadmin4/login?next=/pgadmin4/' + '&name=' + result.rows[0].name);
             const response = await page.locator('body').innerText();
             await expect(response).toContain('200');
             await expect(response).toContain('token');
