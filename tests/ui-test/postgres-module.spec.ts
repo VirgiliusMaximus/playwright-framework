@@ -3,9 +3,8 @@ import { test, expect } from '../../fixtures/hooks-fixture';
 import dbData from '../../data/db_data/login-module-data.json';
 
 test.use({
-    ignoreHTTPSErrors: true
-
-
+    ignoreHTTPSErrors: true,
+    bypassCSP: true
 });
 
 test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUtils }) => {
