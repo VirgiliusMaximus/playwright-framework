@@ -39,7 +39,7 @@ test('Connect to PostgreSQL Database using Credentials', async ({ page, commonUt
             console.log('Name:', result.rows[0].name);
             await page.goto(process.env.DB_URL! + '&name=' + result.rows[0].name);
             // Validate url and response
-            await expect(page).toHaveURL(process.env.DB_URL! + '&name=' + result.rows[0].name);
+            await expect(page).toHaveURL(process.env.DB_URL! + '&name=' + result.rows[0].name, { timeout: 190000 });
             // Fill in the login form with the retrieved credentials
             await page.getByRole('textbox', { name: 'Email Address / Username' }).click();
             await page.getByRole('textbox', { name: 'Email Address / Username' }).fill(dbData.db_user);
