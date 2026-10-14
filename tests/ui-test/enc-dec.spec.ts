@@ -5,7 +5,7 @@ import CommonUtils from "../../utils/common-util";
 test.skip("Encript Data", { tag: ['@util'] }, async ({ gotoUrl, loginPage, commonUtils, }) => {
 
     const commonUtilsObj = new CommonUtils();
-    const encryptedData = commonUtilsObj.encryptData("postgres");
+    const encryptedData = commonUtilsObj.encryptData("192.168.10.74");
     console.log("Encrypted data: " + encryptedData);
 
     // const decryptedData = commonUtilsObj.decryptData(encryptedData);
